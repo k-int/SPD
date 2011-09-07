@@ -1,0 +1,14 @@
+
+
+SPD Is a web application for tracking schools participation in cultural activities throughout UK libraries, archives and museums. It allows the MLA sector to collate information as a unified whole about the value museums provide to the educational sector. Contributing museums can then report on their own activity and the wider sector to create qualitative reports about usage statistics.
+
+
+
+
+Database Config
+
+Default dev database is MySQL
+mysql> create database spd_dev default charset UTF8 default collate utf8_bin;
+mysql> grant all on spd_dev.* to 'k-int'@'localhost';
+mysql> grant all on spd_dev.* to 'k-int'@'localhost.localdomain';
+mysql> grant all on spd_dev.* to 'k-int'@'%';
