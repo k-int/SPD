@@ -2,6 +2,16 @@ package com.k_int.spd.domain
 
 class Classifier {
 
-    static constraints = {
-    }
+  /*
+  postings = []
+  static hasMany = [postings:Visit]
+  */
+
+  int classificationLevel
+  Classifier parent
+  String classnIdentifier
+
+  static constraints = { 
+    parent(nullable:true)
+  } 
 }
