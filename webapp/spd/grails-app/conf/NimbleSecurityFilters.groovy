@@ -33,6 +33,15 @@ public class NimbleSecurityFilters extends grails.plugins.nimble.security.Nimble
                 }
             }
         }
+		
+		// Content requiring users to be authenticated
+		urisecure(uri:'/secured/*') {
+			before = {
+				accessControl {
+					true
+				}
+			}
+		}
 
         // Account management requiring authentication
         accountsecure(controller: "account", action: "(changepassword|updatepassword|changedpassword)") {
