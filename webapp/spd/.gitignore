@@ -34,7 +34,10 @@ Thumbs.db
 
 # Marks additions
 #############
-/target
-/target/*
 .classpath
+.gitignore
 .project
+.settings/
+.springBeans/
+target/
+.classpath
