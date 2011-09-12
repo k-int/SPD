@@ -88,3 +88,25 @@ log4j = {
 
     warn   'org.mortbay.log'
 }
+
+reportingCfg = [
+  visitReporting: [
+    baseDomainClass:'com.k_int.spd.domain.Visit',
+    reportingAxis: [
+      schoolRegion : [
+        label:'schoolregion',
+        type:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        entityAccessPath:'school.region',
+        reportingDomain:'id',
+        reportingLabel:'regionName'
+      ],
+      museum : [
+        label:'museum',
+        type:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        entityAccessPath:'museum',
+        reportingDomain:'id',
+        reportingLabel:'name'
+      ]
+    ]
+  ]
+]
