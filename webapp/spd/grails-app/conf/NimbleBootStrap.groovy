@@ -41,14 +41,14 @@ class NimbleBootStrap {
 
   def init = {servletContext ->
     // The following must be executed
-    internalBootStap(servletContext)
+    // internalBootStap(servletContext)
   }
 
   def destroy = {
 
   }
 
-  private internalBootStap(def servletContext) {
-    nimbleService.init()
-  }
+  // private internalBootStap(def servletContext) {
+  //   nimbleService.init()
+  // }
 } 
