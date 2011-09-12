@@ -86,11 +86,15 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 
+    debug  'grails.app.controller.com.k_int',
+           'grails.app.service.com.k_int',
+           'grails.app.domain.com.k_int'
+
     warn   'org.mortbay.log'
 }
 
 reportingCfg = [
-  visitReporting: [
+  'visit': [
     baseDomainClass:'com.k_int.spd.domain.Visit',
     reportingAxis: [
       schoolRegion : [
