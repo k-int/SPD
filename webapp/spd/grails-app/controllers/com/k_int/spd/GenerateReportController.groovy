@@ -37,6 +37,28 @@ class GenerateReportController {
 
       // 5. Determine the interval headings for the y axis
       def y_axis_head = determineHeadings('base_domain_class', y_axis_config)
+
+      log.debug("Get hold of domain class identified in config : ${target_config.baseDomainClass}");
+      def domain_class = grailsApplication.getArtefact("Domain",target_config.baseDomainClass);
+
+      log.debug("Create criteria query");
+      def y_axis_query = domain_class.getClazz().createCriteria();
+
+      log.debug("Query in scrollable results mode...");
+      def y_axis_batch = y_axis_query.scroll {
+        maxResults(30);
+        projections {
+          museum {
+            distinct('id')
+          }
+        }
+      }
+
+      while ( y_axis_batch.next() ) {
+        y_axis_batch.each() {
+          log.debug("Result: ${y_axis_batch.getLong(0)}");
+        }
+      }
     }
     else {
       log.error("Unable to locate configuration with id ${target_config_name}");
@@ -46,7 +68,7 @@ class GenerateReportController {
   def determineHeadings(base_domain_class, axis_config) {
     def result = []
     log.debug("determineHeadings(${base_domain_class},...)");
-
+    
     result;
   }
 }
