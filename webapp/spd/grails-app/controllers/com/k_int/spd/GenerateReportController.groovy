@@ -13,6 +13,8 @@ class GenerateReportController {
     // the target domain class (Currently only Visits are supported) and the X and Y axis of the report. It then
     // dynamically generates the needed SQL to produce the reports
     def target_config_name='visit'
+    def result = [:]
+    result.result_grid = []
 
     def x_axis_name = 'schoolRegion'
     def y_axis_name = 'museum'
@@ -32,66 +34,91 @@ class GenerateReportController {
 
       log.debug("After config, x_axis_config = ${x_axis_config}, y_axis_config=${y_axis_config}")
 
-      // 4. Determine the interval headings for the x axis
-      def x_axis_head = determineHeadings('base_domain_class', x_axis_config)
-
-      // 5. Determine the interval headings for the y axis
-      def y_axis_head = determineHeadings('base_domain_class', y_axis_config)
-
       log.debug("Get hold of domain class identified in config : ${target_config.baseDomainClass}");
-
       def domain_class = grailsApplication.getArtefact("Domain",target_config.baseDomainClass);
 
-      log.debug("Query in scrollable results mode.... Y axis type is ${y_axis_config.axisType}");
-      def y_axis_batch = null;
+      // 4. Determine the interval headings for the x axis
+      def x_axis_head = determineHeadings(domain_class, x_axis_config)
 
-      // We support 2 axis types: Simple (Where the values driving an axis come from a simple select, and projection, where they are derived through some 
-      // set operations on the source table.
-      switch ( y_axis_config.axisType ) {
-        case 'simple':
-          log.debug("Simple axis config - Obtaining values from ${y_axis_config.domainClass}")
-          def axis_source_domain_class = grailsApplication.getArtefact("Domain",y_axis_config.domainClass);
-          def y_axis_query = axis_source_domain_class.getClazz().createCriteria();
-          y_axis_batch = y_axis_query.scroll {
-            maxResults(30);
-            projections {
-              property(y_axis_config.keyProperty)
-            }
-          }
-          break;
-        case 'projection':
-          log.debug("Projection axis: Create criteria query, y_axis_path=${x_axis_config.entityAccessPath}, y_axis_domain=${x_axis_config.reportingDomain}");
-          def y_axis_query = domain_class.getClazz().createCriteria();
-          y_axis_batch = y_axis_query.scroll {
-            maxResults(30);
-            projections {
-              "${y_axis_config.entityAccessPath}" {
-                distinct("${y_axis_config.reportingDomain}")
-              }
-            }
-          }
-          break;
-        default:
-          log.error("Unhandled or missing config type for y axis");
-          break;
+      // 5. Determine the interval headings for the y axis
+      def y_axis_head = determineHeadings(domain_class, y_axis_config)
+
+      def header_row = []
+      header_row.add("")
+      y_axis_head.each {
+        header_row.add("${it}")
       }
+      result.result_grid.add(header_row);
 
-      // The y_axis query must yield a cursor of keys that can be used to control the per-row output of the report.
-      // Depending upon the axis definition, these can be scalar or range values. Currently, only scalars are handled
-      while ( y_axis_batch.next() ) {
-        if ( 1==1 ) {  // If y_axis is scalar
-          log.debug("Result: ${y_axis_batch.get(0)}");
+      y_axis_head.each { y_axis_key ->
+        // log.debug("Process row for key ${y_axis_key}")
+
+        def row = []
+
+        row.add(y_axis_key)
+
+        x_axis_head.each { x_axis_key ->
+          // log.debug(" -> Sum over y(${y_axis_config.joinProperty})=${y_axis_key}, x(${x_axis_config.joinProperty})=${x_axis_key}");
+          def result_qry = domain_class.getClazz().createCriteria()
+          def result_list = result_qry.list {
+            target_config.aliases.each { ad ->
+              createAlias(ad.property,ad.alias)
+            }
+            and {
+              eq(y_axis_config.joinProperty,y_axis_key)
+              eq(x_axis_config.joinProperty,x_axis_key)
+            }
+            projections {
+              sum(target_config.reportingProperty)
+            }
+          }
+          def total = result_list.get(0);
+          row.add( total ?: 0 )
         }
+
+        result.result_grid.add(row)
       }
     }
     else {
       log.error("Unable to locate configuration with id ${target_config_name}");
     }
+
+    result
   }
 
   def determineHeadings(base_domain_class, axis_config) {
     def result = []
     log.debug("determineHeadings(${base_domain_class},...)");
+
+    // We support 2 axis types: Simple (Where the values driving an axis come from a simple select, and projection, where they are derived through some 
+    // set operations on the source table.
+    switch ( axis_config.axisType ) {
+      case 'simple':
+        log.debug("Simple axis config - Obtaining values from ${axis_config.domainClass}")
+        def axis_source_domain_class = grailsApplication.getArtefact("Domain",axis_config.domainClass);
+        def y_axis_query = axis_source_domain_class.getClazz().createCriteria();
+        result = y_axis_query.list {
+          maxResults(10);
+          projections {
+            property(axis_config.keyProperty)
+          }
+        }
+        break;
+      case 'projection':
+        log.debug("Projection axis: Create criteria query, y_axis_path=${x_axis_config.entityAccessPath}, y_axis_domain=${x_axis_config.reportingDomain}");
+        def axis_query = base_domain_class.getClazz().createCriteria();
+        result = axis_query.list {
+          projections {
+            "${axis_config.entityAccessPath}" {
+              distinct("${axis_config.reportingDomain}")
+            }
+          }
+        }
+        break;
+      default:
+        log.error("Unhandled or missing config type for y axis");
+        break;
+    }
     
     result;
   }

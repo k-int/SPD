@@ -96,6 +96,10 @@ log4j = {
 reportingCfg = [
   'visit': [
     baseDomainClass:'com.k_int.spd.domain.Visit',
+    reportingProperty:'partySize',
+    aliases:[
+      [ property:'school', alias:'sch1' ]
+    ],
     reportingAxis: [
       schoolRegion : [
         axisType:'simple',
@@ -104,7 +108,7 @@ reportingCfg = [
         domainClass:'com.k_int.spd.domain.Region',
         keyProperty:'id',
         reportingLabel:'regionName',
-        joinProperty:'region.id'
+        joinProperty:'sch1.region.id'
       ],
       museum : [
         axisType:'simple',
