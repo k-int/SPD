@@ -45,10 +45,13 @@ class GenerateReportController {
 
       def header_row = []
       header_row.add("")
-      y_axis_head.each {
+      x_axis_head.each {
         header_row.add("${it}")
       }
+
       result.result_grid.add(header_row);
+      def int total_y_values = y_axis_head.size();
+      def int y_values_position = 0;
 
       y_axis_head.each { y_axis_key ->
         // log.debug("Process row for key ${y_axis_key}")
@@ -77,6 +80,7 @@ class GenerateReportController {
         }
 
         result.result_grid.add(row)
+        log.debug("Processed ${y_values_position++} out of ${total_y_values}");
       }
     }
     else {
@@ -98,7 +102,7 @@ class GenerateReportController {
         def axis_source_domain_class = grailsApplication.getArtefact("Domain",axis_config.domainClass);
         def y_axis_query = axis_source_domain_class.getClazz().createCriteria();
         result = y_axis_query.list {
-          maxResults(10);
+          // maxResults(10);
           projections {
             property(axis_config.keyProperty)
           }
