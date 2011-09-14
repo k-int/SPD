@@ -98,15 +98,35 @@ reportingCfg = [
     baseDomainClass:'com.k_int.spd.domain.Visit',
     reportingAxis: [
       schoolRegion : [
+        axisType:'simple',
         label:'schoolregion',
-        type:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        domainClass:'com.k_int.spd.domain.Region',
+        keyProperty:'id',
+        reportingLabel:'regionName',
+        joinProperty:'region.id'
+      ],
+      museum : [
+        axisType:'simple',
+        label:'museum',
+        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        domainClass:'com.k_int.spd.domain.Museum',
+        keyProperty:'id',
+        reportingLabel:'name',
+        joinProperty:'museum.id'
+      ],
+      schoolRegion_p : [
+        axisType:'projection',
+        label:'schoolregion',
+        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         entityAccessPath:'school.region',
         reportingDomain:'id',
         reportingLabel:'regionName'
       ],
-      museum : [
+      museum_p : [
+        axisType:'projection',
         label:'museum',
-        type:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         entityAccessPath:'museum',
         reportingDomain:'id',
         reportingLabel:'name'

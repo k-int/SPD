@@ -42,24 +42,45 @@ class GenerateReportController {
 
       def domain_class = grailsApplication.getArtefact("Domain",target_config.baseDomainClass);
 
-      log.debug("Create criteria query, y_axis_path=${x_axis_config.entityAccessPath}, y_axis_domain=${x_axis_config.reportingDomain}");
-      def y_axis_query = domain_class.getClazz().createCriteria();
+      log.debug("Query in scrollable results mode.... Y axis type is ${y_axis_config.axisType}");
+      def y_axis_batch = null;
 
-      log.debug("Query in scrollable results mode...");
-      def y_axis_batch = y_axis_query.scroll {
-        maxResults(30);
-        projections {
-          "${y_axis_config.entityAccessPath}" {
-            distinct("${y_axis_config.reportingDomain}")
+      // We support 2 axis types: Simple (Where the values driving an axis come from a simple select, and projection, where they are derived through some 
+      // set operations on the source table.
+      switch ( y_axis_config.axisType ) {
+        case 'simple':
+          log.debug("Simple axis config - Obtaining values from ${y_axis_config.domainClass}")
+          def axis_source_domain_class = grailsApplication.getArtefact("Domain",y_axis_config.domainClass);
+          def y_axis_query = axis_source_domain_class.getClazz().createCriteria();
+          y_axis_batch = y_axis_query.scroll {
+            maxResults(30);
+            projections {
+              property(y_axis_config.keyProperty)
+            }
           }
-        }
+          break;
+        case 'projection':
+          log.debug("Projection axis: Create criteria query, y_axis_path=${x_axis_config.entityAccessPath}, y_axis_domain=${x_axis_config.reportingDomain}");
+          def y_axis_query = domain_class.getClazz().createCriteria();
+          y_axis_batch = y_axis_query.scroll {
+            maxResults(30);
+            projections {
+              "${y_axis_config.entityAccessPath}" {
+                distinct("${y_axis_config.reportingDomain}")
+              }
+            }
+          }
+          break;
+        default:
+          log.error("Unhandled or missing config type for y axis");
+          break;
       }
 
       // The y_axis query must yield a cursor of keys that can be used to control the per-row output of the report.
       // Depending upon the axis definition, these can be scalar or range values. Currently, only scalars are handled
       while ( y_axis_batch.next() ) {
         if ( 1==1 ) {  // If y_axis is scalar
-          log.debug("Result: ${y_axis_batch.getLong(0)}");
+          log.debug("Result: ${y_axis_batch.get(0)}");
         }
       }
     }
