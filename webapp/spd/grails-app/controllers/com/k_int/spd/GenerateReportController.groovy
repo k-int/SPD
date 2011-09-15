@@ -43,22 +43,23 @@ class GenerateReportController {
       // 5. Determine the interval headings for the y axis
       def y_axis_head = determineHeadings(domain_class, y_axis_config)
 
-      def header_row = []
-      header_row.add("")
+      result.header_row = []
       x_axis_head.each {
-        header_row.add("${it}")
+        result.header_row.add("${it}")
       }
 
-      result.result_grid.add(header_row);
       def int total_y_values = y_axis_head.size();
       def int y_values_position = 0;
 
       y_axis_head.each { y_axis_key ->
         // log.debug("Process row for key ${y_axis_key}")
 
-        def row = []
+        def row = [:]
+        row.label = "key:${y_axis_key}"
+        row.key = y_axis_key
+        row.values = []
 
-        row.add(y_axis_key)
+        row.values.add(y_axis_key)
 
         x_axis_head.each { x_axis_key ->
           // log.debug(" -> Sum over y(${y_axis_config.joinProperty})=${y_axis_key}, x(${x_axis_config.joinProperty})=${x_axis_key}");
@@ -76,7 +77,7 @@ class GenerateReportController {
             }
           }
           def total = result_list.get(0);
-          row.add( total ?: 0 )
+          row.values.add( total ?: 0 )
         }
 
         result.result_grid.add(row)
@@ -124,6 +125,13 @@ class GenerateReportController {
         break;
     }
     
-    result;
+    withFormat {
+      html result
+      csv { 
+        response.setContentType('text/csv') 
+        response.setHeader('Content-Disposition', 'attachment; filename=reportdata.csv') 
+        result
+      } 
+    }
   }
 }
