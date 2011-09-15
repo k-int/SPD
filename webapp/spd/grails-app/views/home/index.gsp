@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Schools Participation Database</title>
-        <meta name="layout" content="simmain"/>
+        <meta name="layout" content="main"/>
     </head>
     <body>
       <h1>Schools Participation Database</h1>
