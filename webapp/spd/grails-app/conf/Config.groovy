@@ -119,21 +119,13 @@ reportingCfg = [
         reportingLabel:'name',
         joinProperty:'museum.id'
       ],
-      schoolRegion_p : [
+      visitYear : [
         axisType:'projection',
-        label:'schoolregion',
+        label:'visitYear',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
-        entityAccessPath:'school.region',
-        reportingDomain:'id',
-        reportingLabel:'regionName'
-      ],
-      museum_p : [
-        axisType:'projection',
-        label:'museum',
-        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
-        entityAccessPath:'museum',
-        reportingDomain:'id',
-        reportingLabel:'name'
+        reportingDomain:'visitYear',
+        reportingLabel:'visitYear',
+        joinProperty:'visitYear'
       ]
     ]
   ]

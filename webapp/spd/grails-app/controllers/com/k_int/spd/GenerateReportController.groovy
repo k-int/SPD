@@ -16,8 +16,8 @@ class GenerateReportController {
     def result = [:]
     result.result_grid = []
 
-    def x_axis_name = 'schoolRegion'
-    def y_axis_name = 'museum'
+    def x_axis_name = params.x_axis_name; // 'schoolRegion'
+    def y_axis_name = params.y_axis_name; // 'museum'
 
     // 1. Obtain reporting configuration
     def reporting_config = grailsApplication.config.reportingCfg
@@ -37,11 +37,15 @@ class GenerateReportController {
       log.debug("Get hold of domain class identified in config : ${target_config.baseDomainClass}");
       def domain_class = grailsApplication.getArtefact("Domain",target_config.baseDomainClass);
 
-      // 4. Determine the interval headings for the x axis
+      log.debug("Target domain class is ${domain_class}");
+
+      log.debug("4. Determine the interval headings for the x axis");
       def x_axis_head = determineHeadings(domain_class, x_axis_config)
 
-      // 5. Determine the interval headings for the y axis
+      log.debug("5. Determine the interval headings for the y axis");
       def y_axis_head = determineHeadings(domain_class, y_axis_config)
+
+      log.debug("Got both axis values...(x!=null: ${x_axis_head != null}, y!=null: ${y_axis_head != null}). generate report...");
 
       result.header_row = []
       x_axis_head.each {
@@ -59,10 +63,9 @@ class GenerateReportController {
         row.key = y_axis_key
         row.values = []
 
-        row.values.add(y_axis_key)
-
         x_axis_head.each { x_axis_key ->
           // log.debug(" -> Sum over y(${y_axis_config.joinProperty})=${y_axis_key}, x(${x_axis_config.joinProperty})=${x_axis_key}");
+          // This query will generate a result set containing a value for each column in the row
           def result_qry = domain_class.getClazz().createCriteria()
           def result_list = result_qry.list {
             target_config.aliases.each { ad ->
@@ -77,6 +80,7 @@ class GenerateReportController {
             }
           }
           def total = result_list.get(0);
+          // Transpose the result set row to the appropriate column in the result set.
           row.values.add( total ?: 0 )
         }
 
@@ -88,7 +92,14 @@ class GenerateReportController {
       log.error("Unable to locate configuration with id ${target_config_name}");
     }
 
-    result
+    withFormat {
+      html result
+      csv { 
+        response.setContentType('text/csv') 
+        response.setHeader('Content-Disposition', 'attachment; filename=reportdata.csv') 
+        result
+      } 
+    }
   }
 
   def determineHeadings(base_domain_class, axis_config) {
@@ -110,28 +121,26 @@ class GenerateReportController {
         }
         break;
       case 'projection':
-        log.debug("Projection axis: Create criteria query, y_axis_path=${x_axis_config.entityAccessPath}, y_axis_domain=${x_axis_config.reportingDomain}");
+        log.debug("Projection axis: Create criteria query, axis_path=${axis_config.entityAccessPath}, axis_domain=${axis_config.reportingDomain}");
         def axis_query = base_domain_class.getClazz().createCriteria();
         result = axis_query.list {
           projections {
-            "${axis_config.entityAccessPath}" {
+            if ( ( axis_config.entityAccessPath != null ) && ( axis_config.entityAccessPath.length() > 0 ) ) {
+              "${axis_config.entityAccessPath}" {
+                distinct("${axis_config.reportingDomain}")
+              }
+            }
+            else {
               distinct("${axis_config.reportingDomain}")
             }
           }
+          order ("${axis_config.reportingDomain}", "asc")
         }
         break;
       default:
         log.error("Unhandled or missing config type for y axis");
         break;
     }
-    
-    withFormat {
-      html result
-      csv { 
-        response.setContentType('text/csv') 
-        response.setHeader('Content-Disposition', 'attachment; filename=reportdata.csv') 
-        result
-      } 
-    }
+  
   }
 }
