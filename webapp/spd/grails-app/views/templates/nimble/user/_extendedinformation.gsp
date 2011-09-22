@@ -27,8 +27,8 @@
 
     <g:each in="${user.affiliations}" status="i" var="affil">
       <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-        <td>${affil.museum}</td>
-        <td>${affil.status}</td>
+        <td>${affil.museum.name}</td>
+        <td>${affil.status.value}</td>
       </tr>
     </g:each>
 

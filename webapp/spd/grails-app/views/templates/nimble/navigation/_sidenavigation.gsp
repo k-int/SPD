@@ -110,5 +110,8 @@
 		<li>
 			<g:link controller="admins" action="index"><g:message code="nimble.link.admins" /></g:link>
 		</li>
+		<li>
+			<g:link controller="affiliation" action="list">Affiliations</g:link>
+		</li>
 	</ul>
 </div>
