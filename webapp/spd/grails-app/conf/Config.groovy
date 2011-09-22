@@ -86,5 +86,31 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 
+    debug  'grails.app.controller.com.k_int',
+           'grails.app.service.com.k_int',
+           'grails.app.domain.com.k_int'
+
     warn   'org.mortbay.log'
 }
+
+reportingCfg = [
+  'visit': [
+    baseDomainClass:'com.k_int.spd.domain.Visit',
+    reportingAxis: [
+      schoolRegion : [
+        label:'schoolregion',
+        type:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        entityAccessPath:'school.region',
+        reportingDomain:'id',
+        reportingLabel:'regionName'
+      ],
+      museum : [
+        label:'museum',
+        type:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        entityAccessPath:'museum',
+        reportingDomain:'id',
+        reportingLabel:'name'
+      ]
+    ]
+  ]
+]
