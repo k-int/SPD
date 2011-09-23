@@ -97,13 +97,14 @@ reportingCfg = [
   'visit': [
     baseDomainClass:'com.k_int.spd.domain.Visit',
     reportingProperty:'partySize',
+    label:'Total Visitors',
     aliases:[
       [ property:'school', alias:'sch1' ]
     ],
     reportingAxis: [
       schoolRegion : [
         axisType:'simple',
-        label:'schoolregion',
+        label:'Region of the visiting school',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Region',
         keyProperties:['id','regionName'],
@@ -116,7 +117,7 @@ reportingCfg = [
           [ property:'region', alias:'rgn1' ]
         ],
         axisType:'simple',
-        label:'museum',
+        label:'Museum (grouped by region)',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Museum',
         // If you define more than 1 display property (name, rgn1.regionname in this case, the report can subtotal on the outer headings
@@ -127,7 +128,7 @@ reportingCfg = [
       ],
       visitYear : [
         axisType:'projection',
-        label:'visitYear',
+        label:'Year of visit',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         reportingDomain:'visitYear',
         reportingLabel:'visitYear',

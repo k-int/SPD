@@ -1,5 +1,5 @@
 <hr/>
-This is a report...
+<h1>${title}</h1>
 <hr/>
 
 <table>
@@ -29,3 +29,12 @@ This is a report...
     </g:each>
   </tbody>
 </table>
+
+<h2>Notes</h2>
+
+<ul>
+  <g:if test="${(omitted_row_count != null) && (omitted_row_count > 0)}">
+    <li>${omitted_row_count} rows were omitted from this report because they had no data, and the report omit_zero_sum_rows parameter is set to true</li>
+  </g:if>
+</ul>
+

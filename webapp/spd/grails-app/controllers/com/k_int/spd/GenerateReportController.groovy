@@ -18,6 +18,8 @@ class GenerateReportController {
 
     def x_axis_name = params.x_axis_name; // 'schoolRegion'
     def y_axis_name = params.y_axis_name; // 'museum'
+    def omit_zero_sum_rows = true
+    result.omitted_row_count = 0;
 
     // 1. Obtain reporting configuration
     def reporting_config = grailsApplication.config.reportingCfg
@@ -53,10 +55,12 @@ class GenerateReportController {
 
       result.header_row = []
       x_axis_head.each {
-        result.header_row.add("${it}")
+        result.header_row.add("${it[1]}")
       }
 
       log.debug("x-axis: ${x_axis_head}");
+
+      result.title = "${target_config.label} broken down by ${y_axis_config.label} (Vertical) against ${x_axis_config.label} (Horizontal)"
 
       def int total_y_values = y_axis_head.size();
       def int y_values_position = 0;
@@ -81,6 +85,7 @@ class GenerateReportController {
         row.label = "${'&nbsp'.multiply(y_axis_key.size()-1)}${y_axis_key[y_axis_key.size()-1]}"
         row.key = y_axis_key[0]
         row.values = []
+        row.sum = 0;
 
         x_axis_head.each { x_axis_key ->
           // log.debug(" -> Sum over y(${y_axis_config.joinProperty})=${y_axis_key}, x(${x_axis_config.joinProperty})=${x_axis_key}");
@@ -99,15 +104,19 @@ class GenerateReportController {
             }
           }
           def total = result_list.get(0);
+          row.sum += total ?: 0;
           // Transpose the result set row to the appropriate column in the result set.
           row.values.add( total ?: 0 )
         }
 
-        result.result_grid.add(row)
+        if ( ( row.sum > 0 ) || ( !omit_zero_sum_rows) )
+          result.result_grid.add(row)
+        else
+          result.omitted_row_count++
 
-        if ( ( y_values_position++ % 50 ) == 0 ) {
-          log.debug("Processed ${y_values_position} out of ${total_y_values} - ${y_axis_key}");
-        }
+        //if ( ( y_values_position++ % 50 ) == 0 ) {
+        //  log.debug("Processed ${y_values_position} out of ${total_y_values} - ${y_axis_key}");
+        //}
       }
     }
     else {
