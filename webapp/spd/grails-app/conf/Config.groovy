@@ -106,7 +106,7 @@ reportingCfg = [
         label:'schoolregion',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Region',
-        keyProperty:'id',
+        keyProperties:['id','regionName'],
         reportingLabel:'regionName',
         joinProperty:'sch1.region.id'
       ],
@@ -115,7 +115,7 @@ reportingCfg = [
         label:'museum',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Museum',
-        keyProperty:'id',
+        keyProperties:['id','name'],
         reportingLabel:'name',
         joinProperty:'museum.id'
       ],

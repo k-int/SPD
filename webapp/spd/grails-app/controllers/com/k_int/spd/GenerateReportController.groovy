@@ -52,6 +52,8 @@ class GenerateReportController {
         result.header_row.add("${it}")
       }
 
+      log.debug("x-axis: ${x_axis_head}");
+
       def int total_y_values = y_axis_head.size();
       def int y_values_position = 0;
 
@@ -60,7 +62,7 @@ class GenerateReportController {
 
         def row = [:]
         row.label = "key:${y_axis_key}"
-        row.key = y_axis_key
+        row.key = y_axis_key[0]
         row.values = []
 
         x_axis_head.each { x_axis_key ->
@@ -72,8 +74,8 @@ class GenerateReportController {
               createAlias(ad.property,ad.alias)
             }
             and {
-              eq(y_axis_config.joinProperty,y_axis_key)
-              eq(x_axis_config.joinProperty,x_axis_key)
+              eq(y_axis_config.joinProperty,y_axis_key[0])
+              eq(x_axis_config.joinProperty,x_axis_key[0])
             }
             projections {
               sum(target_config.reportingProperty)
@@ -85,7 +87,10 @@ class GenerateReportController {
         }
 
         result.result_grid.add(row)
-        log.debug("Processed ${y_values_position++} out of ${total_y_values}");
+
+        if ( ( y_values_position++ % 50 ) == 0 ) {
+          log.debug("Processed ${y_values_position} out of ${total_y_values} - ${y_axis_key[0]}");
+        }
       }
     }
     else {
@@ -102,6 +107,7 @@ class GenerateReportController {
     }
   }
 
+  // Return a list containing lists of <key, column head, column head, column head>
   def determineHeadings(base_domain_class, axis_config) {
     def result = []
     log.debug("determineHeadings(${base_domain_class},...)");
@@ -116,7 +122,9 @@ class GenerateReportController {
         result = y_axis_query.list {
           // maxResults(10);
           projections {
-            property(axis_config.keyProperty)
+            axis_config.keyProperties.each { kp ->
+              property(kp)
+            }
           }
         }
         break;
@@ -125,14 +133,14 @@ class GenerateReportController {
         def axis_query = base_domain_class.getClazz().createCriteria();
         result = axis_query.list {
           projections {
-            if ( ( axis_config.entityAccessPath != null ) && ( axis_config.entityAccessPath.length() > 0 ) ) {
-              "${axis_config.entityAccessPath}" {
-                distinct("${axis_config.reportingDomain}")
+              if ( ( axis_config.entityAccessPath != null ) && ( axis_config.entityAccessPath.length() > 0 ) ) {
+                "${axis_config.entityAccessPath}" {
+                  distinct(["${axis_config.reportingDomain}","${axis_config.reportingDomain}"])
+                }
               }
-            }
-            else {
-              distinct("${axis_config.reportingDomain}")
-            }
+              else {
+                distinct(["${axis_config.reportingDomain}","${axis_config.reportingDomain}"])
+              }
           }
           order ("${axis_config.reportingDomain}", "asc")
         }
