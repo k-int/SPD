@@ -108,15 +108,20 @@ reportingCfg = [
         domainClass:'com.k_int.spd.domain.Region',
         keyProperties:['id','regionName'],
         reportingLabel:'regionName',
+        sortOrder:['regionName'],
         joinProperty:'sch1.region.id'
       ],
       museum : [
+        aliases:[
+          [ property:'region', alias:'rgn1' ]
+        ],
         axisType:'simple',
         label:'museum',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Museum',
-        keyProperties:['id','name'],
+        keyProperties:['id','name','rgn1.regionName'],
         reportingLabel:'name',
+        sortOrder:['rgn1.regionName','name'],
         joinProperty:'museum.id'
       ],
       visitYear : [

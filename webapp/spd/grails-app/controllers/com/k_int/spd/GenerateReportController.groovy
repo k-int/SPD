@@ -70,7 +70,7 @@ class GenerateReportController {
           // This query will generate a result set containing a value for each column in the row
           def result_qry = domain_class.getClazz().createCriteria()
           def result_list = result_qry.list {
-            target_config.aliases.each { ad ->
+            target_config.aliases?.each { ad ->
               createAlias(ad.property,ad.alias)
             }
             and {
@@ -120,12 +120,18 @@ class GenerateReportController {
         def axis_source_domain_class = grailsApplication.getArtefact("Domain",axis_config.domainClass);
         def y_axis_query = axis_source_domain_class.getClazz().createCriteria();
         result = y_axis_query.list {
+          axis_config.aliases?.each { ad ->
+            createAlias(ad.property,ad.alias)
+          }
           // maxResults(10);
           projections {
             axis_config.keyProperties.each { kp ->
               property(kp)
             }
           }
+          axis_config.sortOrder?.each { so ->
+            order(so)
+          }          
         }
         break;
       case 'projection':
