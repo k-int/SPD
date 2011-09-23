@@ -15,7 +15,7 @@ This is a report...
     <g:each in="${result_grid}" var="row">
 
       <g:if test="${row.type=='heading'}">
-        <tr><td>${row.value}</td></tr>
+        <tr><td><b>${row.value}</b></td></tr>
       </g:if>
       <g:else>
         <tr>
