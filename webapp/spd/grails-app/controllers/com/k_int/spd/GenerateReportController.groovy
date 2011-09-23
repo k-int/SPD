@@ -47,6 +47,10 @@ class GenerateReportController {
 
       log.debug("Got both axis values...(x!=null: ${x_axis_head != null}, y!=null: ${y_axis_head != null}). generate report...");
 
+
+      // Set up the structures we will use to do subtotals on the Y axis, as each key value changes..
+      def last_row_columns = [];
+
       result.header_row = []
       x_axis_head.each {
         result.header_row.add("${it}")
@@ -57,11 +61,24 @@ class GenerateReportController {
       def int total_y_values = y_axis_head.size();
       def int y_values_position = 0;
 
+
       y_axis_head.each { y_axis_key ->
         // log.debug("Process row for key ${y_axis_key}")
 
+        for ( int i=1; i<(y_axis_key.size()-1); i++ ) {
+          if ( last_row_columns.size() < i ) {
+            last_row_columns.add("");
+          }
+
+          if ( y_axis_key[i] != last_row_columns[i-1] ) {
+            result.result_grid.add(['type':'heading','value':y_axis_key[i]])
+            last_row_columns[i-1]=y_axis_key[i]
+          }
+        }
+
         def row = [:]
-        row.label = "key:${y_axis_key}"
+        row.type = 'data'
+        row.label = "${y_axis_key[y_axis_key.size()-1]}"
         row.key = y_axis_key[0]
         row.values = []
 
@@ -89,7 +106,7 @@ class GenerateReportController {
         result.result_grid.add(row)
 
         if ( ( y_values_position++ % 50 ) == 0 ) {
-          log.debug("Processed ${y_values_position} out of ${total_y_values} - ${y_axis_key[0]}");
+          log.debug("Processed ${y_values_position} out of ${total_y_values} - ${y_axis_key}");
         }
       }
     }

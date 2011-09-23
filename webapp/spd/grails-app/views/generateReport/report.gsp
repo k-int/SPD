@@ -13,12 +13,19 @@ This is a report...
   </thead>
   <tbody>
     <g:each in="${result_grid}" var="row">
-      <tr>
-        <th>${row.label}</th>
-        <g:each in="${row.values}" var="value">
-          <td>${value}</td>
-        </g:each>
-      </tr>
+
+      <g:if test="${row.type=='heading'}">
+        <tr><td>${row.value}</td></tr>
+      </g:if>
+      <g:else>
+        <tr>
+          <td>${row.label}</td>
+          <g:each in="${row.values}" var="value">
+            <td>${value}</td>
+          </g:each>
+        </tr>
+      </g:else>
+
     </g:each>
   </tbody>
 </table>

@@ -119,7 +119,8 @@ reportingCfg = [
         label:'museum',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Museum',
-        keyProperties:['id','name','rgn1.regionName'],
+        // If you define more than 1 display property (name, rgn1.regionname in this case, the report can subtotal on the outer headings
+        keyProperties:['id','rgn1.regionName','name'],
         reportingLabel:'name',
         sortOrder:['rgn1.regionName','name'],
         joinProperty:'museum.id'
