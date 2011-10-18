@@ -18,7 +18,6 @@ environments {
             username = "k-int"
             password = "k-int"
             url = "jdbc:mysql://localhost/spd_dev?autoReconnect=true&amp;characterEncoding=utf8"
-            // logSql=true
             properties {
                 validationQuery="select 1"
                 testWhileIdle=true

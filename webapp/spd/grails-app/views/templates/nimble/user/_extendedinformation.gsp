@@ -12,3 +12,31 @@
 		</tr>
 	</tbody>
 </table>
+
+<h3>Affiliations</h3>
+
+<g:if test="${user.affiliations?.size() > 0}">
+  <table class="details">
+    <thead>
+    <tr>
+      <th class="first">Museum</th>
+      <th class="last">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <g:each in="${user.affiliations}" status="i" var="affil">
+      <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+        <td>${affil.museum.name}</td>
+        <td>${affil.status.value}</td>
+      </tr>
+    </g:each>
+
+    </tbody>
+  </table>
+</g:if>
+<g:else>
+  <p>
+   	No Affiliations
+  </p>
+</g:else>

@@ -37,4 +37,3 @@
     <li>${omitted_row_count} rows were omitted from this report because they had no data, and the report omit_zero_sum_rows parameter is set to true</li>
   </g:if>
 </ul>
-
