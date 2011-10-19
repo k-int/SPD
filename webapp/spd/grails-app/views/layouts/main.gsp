@@ -46,14 +46,6 @@
     		<div id="footer-inner">
     			<img src="/spd/images/col_trust_small.png" />
     			<span>Schools Participation Database &copy; 2011 Collections Trust</span>
-    			<ul>
-    				<li><g:link controller="home" action="index" class="nav-home">Home</g:link></li>
-    				<li>|</li>
-    				<li><a href="#">Contact us</a></li>
-    				<li>|</li>
-    				<li><a href="#">Terms of Service</a></li>
-    				
-    			</ul>
     		</div>
     	</div>
     </body>

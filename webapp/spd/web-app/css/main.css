@@ -485,3 +485,64 @@ a.edit:hover
 	color:black;
 	background: transparent url(../images/pencil.png) center right no-repeat;
 }
+
+.info1, .info2
+{
+	border: solid 1px white;
+	height: 110px;
+	width: 300px;
+	float:left;
+	background-color: white;
+	margin: 20px 20px 0 0 ;
+	-moz-border-radius:10px;
+	border-radius:10px;
+	padding: 20px 20px;
+	-moz-box-shadow: inset 6px 6px 8px lightgray,
+					 inset -3px -3px 8px lightgray;
+	box-shadow: inset 6px 6px 8px lightgray,
+					 inset -3px -3px 8px lightgray;		
+	position:relative;		
+	background: -moz-linear-gradient(white, lightgray); 
+	background: -webkit-linear-gradient(white, lightgray); 
+	background: -o-linear-gradient(white, lightgray); 
+	background: linear-gradient(white, lightgray);
+}
+
+.info1 p, .info2 p
+{
+	font-size: 26px;
+	vertical-align: middle;
+	padding-left: 158px;
+	/*color : #01978e;*/
+	font-family: ariel;
+	padding-top: 10px;
+	
+}
+
+.info1 p:before
+{
+	display: block;
+	content: url(../images/social_network.png);
+	position: absolute;
+	left: 20px;
+	top: 10px;
+}
+
+.info1 p:after, .info2 p:after
+{
+	display: block;
+	content: url(../images/tick.png);
+	position: absolute;
+	right: -10px;
+	bottom: -20px;
+	z-index: 600;
+}
+
+.info2 p:before
+{
+	display: block;
+	position: absolute;
+	left: 20px;
+	top: 10px;
+	content: url(../images/school_bus.png);
+}
