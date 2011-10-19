@@ -5,67 +5,114 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'visit.label', default: 'Visit')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
+        <g:javascript>
+        	$(document).ready(function()
+			{	
+				$('.nav-visit').addClass('active');
+			});
+        </g:javascript>
     </head>
     <body>
-		<div class="body">
-		  	<h1>Log Visit</h1>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
-            <g:hasErrors bean="${museumInstance}">
-            <div class="errors">
-                <g:renderErrors bean="${museumInstance}" as="list" />
-            </div>
-            </g:hasErrors>
+	  	<h1>Record Visit</h1>
+        <g:if test="${flash.message}">
+        <div class="message">${flash.message}</div>
+        </g:if>
+        <g:hasErrors bean="${museumInstance}">
+        <div class="errors">
+            <g:renderErrors bean="${museumInstance}" as="list" />
+        </div>
+        </g:hasErrors>
+        <ul>
 			<g:form action="save" >
-                <div class="dialog">
-                    <table>
-                        <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="visitDate"><g:message code="visit.visitDate.label" default="Visit Date" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: visitInstance, field: 'visitDate', 'errors')}">                             
-                                    <g:datePicker name="visitDate" value="${visitInstance?.visitDate}" precision="day"/>
-                                </td>
-                            </tr> 
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="museum.id"><g:message code="visit.museum.label" default="Museum" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: visitInstance, field: 'region', 'errors')}">
-                                    <g:select name="museum.id" from="${com.k_int.spd.domain.Museum.list()}" optionKey="id" optionValue="name" value="${visitInstance?.museum?.name}" noSelection="['null': '']" />
-                                </td>
-                            </tr>
-                            
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="school.id"><g:message code="visit.school.label" default="School" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: visitInstance, field: 'school', 'errors')}">
-                                     <g:select name="school.id" from="${com.k_int.spd.domain.School.list()}" optionKey="id" optionValue="name" value="${visitInstance?.school?.name}" noSelection="['null': '']" />
-                                </td>
-                            </tr>
-                            
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="partySize"><g:message code="visit.partySize.label" default="Party Size" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: visitInstance, field: 'partySize', 'errors')}">
-                                    <g:textField name="partySize" value="${visitInstance?.partySize}" />
-                                </td>
-                            </tr>
-                                                
-                        </tbody>
-                    </table>
-                </div>
-                <div class="buttons">
-                    <span class="button"><g:submitButton name="create" class="save" value="Add" /></span>
-                </div>
-            </g:form>
-		</div>
+			<li class="value ${hasErrors(bean: visitInstance, field: 'visitDate', 'errors')}">
+				<label for="visitDate"><g:message code="visit.visitDate.label" default="Visit Date" /></label>
+				<g:datePicker name="visitDate" value="${visitInstance?.visitDate}" precision="day" class="small"/>
+			</li>
+			<li class="value ${hasErrors(bean: visitInstance, field: 'museum', 'errors')}">
+				<label for="museum.id"><g:message code="visit.museum.label" default="Museum" /></label>
+				<input type="text" name="museum.name" id="museum_autocomplete" class="large" title="Autocomplete field, type two or more characters... max of 20 results are returned at a time so keep typing to refine the list."/>
+				<!--<img src="/spd/images/information-balloon.png" class="info" title="helloooooooo"/>-->
+			</li>
+			<li class="value ${hasErrors(bean: visitInstance, field: 'school', 'errors')}">
+				<label for="school.id"><g:message code="visit.school.label" default="School" /></label>
+				<input type="text" name="school.name" id="school_autocomplete" class="large" title="Autocomplete field, type two or more characters... max of 20 results are returned at a time so keep typing to refine the list."/>
+			</li>
+			<li class="value ${hasErrors(bean: visitInstance, field: 'partySize', 'errors')}">
+				<label for="partySize"><g:message code="visit.partySize.label" default="Party Size" /></label>
+				<g:textField name="partySize" value="${visitInstance?.partySize}" />
+			</li>
+			<li>
+				<label for="create"></label>
+				<g:submitButton name="create" class="save" value="Add" />
+				<g:link action="search" class="button-link">${message(code: 'default.button.cancel.label', default: 'Cancel')}</g:link>
+			</li>
+	        </g:form>
+        </ul>
+		<g:javascript>
+		$(document).ready(function() 
+		{
+			$('input[title]').qtip(
+			{
+				position: 
+				{
+      				my: 'center left',  // Position my top left...
+      				at: 'center right', // at the center right of...
+   				},
+   				style:
+   				{
+   					classes: 'ui-tooltip-rounded ui-tooltip-dark'
+   				}
+			});
+					
+			$("#school_autocomplete").autocomplete(
+			{
+				source: function( request, response ) 
+				{
+					$.getJSON("/spd/school/autocomplete", request, function(data) 
+					{
+						response(data);
+					});
+				},
+				minLength: 2
+			});
+		});	
+		</g:javascript>
+		<n:isAdministrator>
+		<g:javascript>
+		$(document).ready(function() 
+		{
+			$("#museum_autocomplete").autocomplete(
+			{
+				source: function( request, response ) 
+				{
+					$.getJSON("/spd/museum/autocomplete", request, function(data) 
+					{
+						response(data);
+					});
+				},
+				minLength: 2
+			});
+		});
+		</g:javascript>
+		</n:isAdministrator>
+		<n:lacksRole name="SYSTEM ADMINISTRATOR">
+		<g:javascript>
+		$(document).ready(function() 
+		{
+			$("#museum_autocomplete").autocomplete(
+			{
+				source: function( request, response ) 
+				{
+					$.getJSON("/spd/affiliation/autocomplete", request, function(data) 
+					{
+						response(data);
+					});
+				},
+				minLength: 2
+			});
+		});
+		</g:javascript>
+		</n:lacksRole>
     </body>
 </html>
     

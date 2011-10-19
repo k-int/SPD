@@ -1,11 +1,13 @@
 package com.k_int.spd.domain
 
+import grails.converters.*
+
 class SchoolController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "search", params: params)
     }
 
     def list = {
@@ -14,17 +16,41 @@ class SchoolController {
     }
 	
 	def search = {
-		def results = School.createCriteria().list
+		
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		
+		def results = School.createCriteria().list(max: params.max, offset: params.offset)
 		{
 			and
 			{
-				if(params.name) 	{ eq("name", params.name) }
+				if(params.name) 	{ ilike("name", "%" + params.name + "%") }
 				if(params.oldSpdId)	{ eq("oldSpdId", params.long('oldSpdId')) }
 				if(params.region)	{ eq("region.id", params.long('region')) }
+				if(params.sort && params.order) { order(params.sort, params.order)}
 			}
 		}
-		[regionList: Region.list(), schoolInstanceList: results,schoolInstanceTotal: Museum.count()]
+		[regionList: Region.list(), schoolInstanceList: results,schoolInstanceTotal:results.totalCount]
 	}
+	
+	def autocomplete = {
+		
+		def results = [];
+		
+		if(params.term && params.term.length() > 0)
+		{
+			results = School.createCriteria().list
+			{
+				ilike("name", "%" + params.term + "%")
+				projections
+				{
+					property("name")
+				}
+				maxResults 20
+			}
+		}		
+		render results as JSON
+	}
+
 
     def create = {
         def schoolInstance = new School()
@@ -47,7 +73,7 @@ class SchoolController {
         def schoolInstance = School.get(params.id)
         if (!schoolInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'school.label', default: 'School'), params.id])}"
-            redirect(action: "list")
+            redirect(action: "search")
         }
         else {
             [schoolInstance: schoolInstance]
@@ -58,7 +84,7 @@ class SchoolController {
         def schoolInstance = School.get(params.id)
         if (!schoolInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'school.label', default: 'School'), params.id])}"
-            redirect(action: "list")
+            redirect(action: "search")
         }
         else {
             return [schoolInstance: schoolInstance]
@@ -88,7 +114,7 @@ class SchoolController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'school.label', default: 'School'), params.id])}"
-            redirect(action: "list")
+            redirect(action: "search")
         }
     }
 
@@ -98,7 +124,7 @@ class SchoolController {
             try {
                 schoolInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'school.label', default: 'School'), params.id])}"
-                redirect(action: "list")
+                redirect(action: "search")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'school.label', default: 'School'), params.id])}"
@@ -107,7 +133,7 @@ class SchoolController {
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'school.label', default: 'School'), params.id])}"
-            redirect(action: "list")
+            redirect(action: "search")
         }
     }
 }

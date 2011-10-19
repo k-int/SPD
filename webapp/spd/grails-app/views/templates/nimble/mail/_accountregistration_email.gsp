@@ -5,7 +5,6 @@
 </head>
 
 <body>
-	
 	<p>
 		<g:message code="nimble.template.mail.accountregistration.descriptive" />
 	</p>
@@ -20,7 +19,6 @@
 	<p>
 		${createLink(absolute:true, controller: 'account', action: 'validateuser', id: user.id, params: [activation: user.actionHash])}
 	</p>
-
 </body>
 
 </html>

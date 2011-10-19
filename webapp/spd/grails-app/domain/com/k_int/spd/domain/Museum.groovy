@@ -15,7 +15,7 @@ class Museum {
     region(nullable:true)
   }
 
-  List affiliates()
+  List allAffiliates()
   {
 	  return affiliates.collect{it.user}
   }
@@ -23,12 +23,12 @@ class Museum {
   List addToAffiliates(User user)
   {
 	  Affiliation.link(user, this)
-	  return affiliates()
+	  return allAffiliates()
   }
   
   List removeFromAffiliates(User user)
   {
 	  Affiliation.unlink(user, this)
-	  return affiliates()
+	  return allAffiliates()
   }
 }

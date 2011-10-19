@@ -1,22 +1,28 @@
 package com.k_int.spd.domain
 
 import com.k_int.spd.utils.StatusEnum
+import grails.plugins.nimble.core.AdminsService
+import grails.converters.*
+import org.apache.shiro.SecurityUtils
 
 class AffiliationController {
 
-    def index = { }
+    def index = { 
+		redirect(action: "list", params: params)
+	}
 	
 	def create = 
 	{
+		def userInstance = User.get(SecurityUtils.getSubject()?.getPrincipal())
 		def affiliationInstance = new Affiliation()
 		affiliationInstance.properties = params
-		return [affiliationInstance: affiliationInstance]
+		return [affiliationInstance: affiliationInstance, userInstance: userInstance]
 	}
 	
 	def save = 
 	{
 		def userInstance = User.findById(params.user.id)
-		def museumInstance = Museum.findById(params.museum.id)
+		def museumInstance = Museum.findByName(params.museum.name)
 		def affiliationInstance = Affiliation.link(userInstance, museumInstance)
 		
 		if (affiliationInstance) 
@@ -61,27 +67,70 @@ class AffiliationController {
 	}
 	
 	def list =
-	{
-		def results
+	{	
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		def results = []		
+		//get logged in user
+		def user = User.get(SecurityUtils.getSubject()?.getPrincipal())
 		
-		if(params.user?.id)
+		results = Affiliation.createCriteria().list(max: params.max, offset: params.offset)
 		{
-			def userInstance = User.findById(params.user.id)
-			
-			results = Affiliation.findAllByUser(userInstance)
-		}
-		else
-		{
-			results = Affiliation.list()
+			createAlias('user', 'usr')
+			createAlias('museum', 'mus')
+			createAlias('museum.region', 'reg')
+			and
+			{
+				if(params.user?.id) 
+				{ 
+					eq("usr.id", params.user?.id) 
+				}
+				if(user?.roles.collect{it.name}.contains(AdminsService.ADMIN_ROLE) == false)	
+				{ 
+					eq("usr.id", user?.id) 
+				}	
+				if(params.sort && params.order)
+				{
+					if(params.sort == 'user.username')
+					{
+						order("usr.username", params.order)
+					}
+					else if(params.sort == 'museum.name')
+					{
+						order("mus.name", params.order)
+					}
+					else if(params.sort == 'museum.region.regionName')
+					{
+						order("reg.regionName", params.order)
+					}
+					else
+					{
+						order(params.sort, params.order)
+					}
+				}
+			}
 		}
 		
-		[affiliationInstanceList: results, affiliationInstanceTotal: results.size ? results.size : 0]
+		
+		[affiliationInstanceList: results, affiliationInstanceTotal: results.totalCount]
 	}
 	
 	def delete = 
 	{
 		Affiliation.unlink(params.id)
 		redirect(action: "list")
+	}
+	
+	def autocomplete = {
+		def results = [];
+		def user = User.get(SecurityUtils.getSubject()?.getPrincipal())
+		
+		if(params.term && params.term.length() > 0)
+		{
+			results = user.allAffiliations().findAll{ m -> m?.name?.toLowerCase().indexOf(params.term.toLowerCase()) != -1}
+											.collect{it.name}
+		}
+
+		render results as JSON
 	}
 
 }

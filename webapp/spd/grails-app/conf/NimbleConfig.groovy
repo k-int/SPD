@@ -33,6 +33,7 @@ nimble {
         application = 'app'
         administration = 'admin'
 		login = 'app'
+		customcss = 'css/main.css'
     }
 
     resources {

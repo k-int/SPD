@@ -6,13 +6,14 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'school.label', default: 'School')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
+        <g:javascript>
+        	$(document).ready(function()
+			{	
+				$('.nav-school').addClass('active');
+			});
+        </g:javascript>
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
-        <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
@@ -24,7 +25,7 @@
                         
                             <g:sortableColumn property="id" title="${message(code: 'school.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="oldSpdId" title="${message(code: 'school.oldSpdId.label', default: 'Old Spd Id')}" />
+                            <g:sortableColumn property="oldSpdId" title="${message(code: 'school.oldSpdId.label', default: 'Legacy Id')}" />
                         
                             <th><g:message code="school.region.label" default="Region" /></th>
                         
@@ -40,7 +41,7 @@
                         
                             <td>${fieldValue(bean: schoolInstance, field: "oldSpdId")}</td>
                         
-                            <td>${fieldValue(bean: schoolInstance, field: "region")}</td>
+                            <td>${fieldValue(bean: schoolInstance, field: "region.regionName")}</td>
                         
                             <td>${fieldValue(bean: schoolInstance, field: "name")}</td>
                         
@@ -50,8 +51,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${schoolInstanceTotal}" />
+                <g:paginate next="&nbsp;" prev="&nbsp;" maxsteps="1" total="${schoolInstanceTotal}"/>
             </div>
-        </div>
     </body>
 </html>

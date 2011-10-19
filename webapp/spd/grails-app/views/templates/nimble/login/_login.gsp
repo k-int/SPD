@@ -3,10 +3,15 @@
   <title><g:message code="nimble.template.login.title" /></title>
   <nh:nimbleui />
   <nh:login />
+  <g:javascript>   	
+   	$(document).ready(function()
+	{	
+		$('.nav-login').removeClass('secondary').addClass('active');
+	});
+  </g:javascript>
 </head>
 
 <body>
-
 <g:if test="${facebook || openid}">
   <div class="container">
 
@@ -260,5 +265,4 @@
 </g:else>
 
 <n:facebookConnect/>
-
 </body>

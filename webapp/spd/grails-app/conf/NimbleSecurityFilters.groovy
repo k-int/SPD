@@ -34,6 +34,14 @@ public class NimbleSecurityFilters extends grails.plugins.nimble.security.Nimble
             }
         }
 		
+		users(controller: "(affiliation|visit)")
+		{
+			before = {
+				accessControl {
+					true
+				}
+			}
+		}
 		// Content requiring users to be authenticated
 		urisecure(uri:'/secured/*') {
 			before = {
@@ -53,7 +61,7 @@ public class NimbleSecurityFilters extends grails.plugins.nimble.security.Nimble
         }
 
         // This should be extended as the application adds more administrative functionality
-        administration(controller: "(admins|user|group|role)") {
+        administration(controller: "(admins|user|group|role|museum|region|school)") {
             before = {
                 accessControl {
                     role(AdminsService.ADMIN_ROLE)
