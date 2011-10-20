@@ -39,6 +39,7 @@
 			</li>
 			<li>
 				<label for="create"></label><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+				<g:link action="list" class="button-link">${message(code: 'default.button.cancel.label', default: 'Cancel')}</g:link>
 			</li>
 		</ul>         
         </g:form>

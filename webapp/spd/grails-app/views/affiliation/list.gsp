@@ -52,7 +52,14 @@
 	                     	<n:isAdministrator>
 	                         <td>${fieldValue(bean: affiliationInstance, field: "user.username")}</td>
 	                     	</n:isAdministrator>
-	                         <td><g:link action="show" controller="museum" id="${affiliationInstance.museum.id}">${fieldValue(bean: affiliationInstance, field: "museum.name")}</g:link></td>
+	                         <td>
+	                         	<n:isAdministrator>
+	                         		<g:link action="show" controller="museum" id="${affiliationInstance.museum.id}" class="edit">${fieldValue(bean: affiliationInstance, field: "museum.name")}</g:link>
+	                         	</n:isAdministrator>
+	                         	<n:lacksRole name="SYSTEM ADMINISTRATOR">
+	                         		${fieldValue(bean: affiliationInstance, field: "museum.name")}
+	                         	</n:lacksRole>
+	                         </td>
 	                         <td>${fieldValue(bean: affiliationInstance, field: "museum.region.regionName")}</td>
 	                         <td>${fieldValue(bean: affiliationInstance, field: "status.value")}</td>
 	                         <n:isAdministrator>
