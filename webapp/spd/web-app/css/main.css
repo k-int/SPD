@@ -513,9 +513,9 @@ a.edit:hover
 	font-size: 26px;
 	vertical-align: middle;
 	padding-left: 158px;
-	/*color : #01978e;*/
-	font-family: ariel;
+	font-family: Times New Roman;
 	padding-top: 10px;
+	z-index: 605;
 	
 }
 
@@ -535,7 +535,7 @@ a.edit:hover
 	position: absolute;
 	right: -10px;
 	bottom: -20px;
-	z-index: 600;
+	z-index: 501;
 }
 
 .info2 p:before

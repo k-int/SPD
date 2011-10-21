@@ -53,7 +53,7 @@
                            <td>${fieldValue(bean: visitInstance, field: "id")}</td>
                            <td>${fieldValue(bean: visitInstance, field: "museum.name")}</td>
                            <td>${fieldValue(bean: visitInstance, field: "school.name")}</td> 
-                           <td><g:formatDate format="dd-MM-yyyy" date="${fieldValue(bean: visitInstance, field: "visitDate")}"/></td>
+                           <td><g:formatDate format="dd-MM-yyyy" date="${visitInstance.visitDate}"/></td>
                            <td>${fieldValue(bean: visitInstance, field: "partySize")}</td>             
                        </tr>
                    </g:each>
@@ -61,7 +61,7 @@
                </table>
            </div>
            <div class="paginateButtons">
-               <g:paginate next="&nbsp;" prev="&nbsp;" maxsteps="1" total="${visitInstanceTotal}"/>
+               <g:paginate params="${params}" next="&nbsp;" prev="&nbsp;" maxsteps="1" total="${visitInstanceTotal}"/>
            </div>
     </body>
 </html>

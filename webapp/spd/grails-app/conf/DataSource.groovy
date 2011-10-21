@@ -32,9 +32,18 @@ environments {
         }
     }
     production {
-        dataSource {
-            dbCreate = "update"
-            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
+         dataSource 
+		 {
+            driverClassName = "com.mysql.jdbc.Driver"
+            dbCreate =  "update" // "create-drop"           // "create" // "update"
+            username = "k-int"
+            password = "k-int"
+            url = "jdbc:mysql://localhost/spd_dev?autoReconnect=true&amp;characterEncoding=utf8"
+            properties {
+                validationQuery="select 1"
+                testWhileIdle=true
+                timeBetweenEvictionRunsMillis=60000
+            }
         }
     }
 }

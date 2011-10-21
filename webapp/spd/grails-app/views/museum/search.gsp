@@ -71,7 +71,7 @@
 		    </table>
 		</div>
 		<div class="paginateButtons">
-		    <g:paginate next="&nbsp;" prev="&nbsp;" maxsteps="1" total="${museumInstanceTotal}" />
+		    <g:paginate params="${params}" next="&nbsp;" prev="&nbsp;" maxsteps="1" total="${museumInstanceTotal}" />
 		</div>
     </body>
 </html>

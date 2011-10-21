@@ -13,6 +13,9 @@
 		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.min.js"></script>
 		<script src="${resource(dir:'js/plugin', file:'jquery.qtip.min.js')}" type="text/javascript"></script>      
         <g:javascript library="application" />  
+		<!--[if lt IE 8]>
+		<link rel="stylesheet" href="${resource(dir:'css',file:'ie7.css')}" />
+		<![endif]-->
         <g:layoutHead />
     </head>
     <body>

@@ -61,7 +61,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate next="&nbsp;" prev="&nbsp;" maxsteps="1" total="${schoolInstanceTotal}" />
+                <g:paginate params="${params}" next="&nbsp;" prev="&nbsp;" maxsteps="1" total="${schoolInstanceTotal}" />
             </div>
     </body>
 </html>

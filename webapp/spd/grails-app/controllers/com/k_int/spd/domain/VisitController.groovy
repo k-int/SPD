@@ -20,31 +20,41 @@ class VisitController {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		
 		def user = User.get(SecurityUtils.getSubject()?.getPrincipal())
+		def affiliations = []
+		def results = []
 		
-		def results = Visit.createCriteria().list(max: params.max, offset: params.offset)
+		if(user && user.roles.collect{it.name}.contains(AdminsService.ADMIN_ROLE) == false)
 		{
-			createAlias('museum', 'mus')
-			createAlias('school', 'sch')
-			and
+			 affiliations = user.getAffiliationsByStatus(StatusEnum.ACCEPTED);
+		}
+
+		if(user && (user.roles.collect{it.name}.contains(AdminsService.ADMIN_ROLE) || affiliations.size() > 0))
+		{
+			results = Visit.createCriteria().list(max: params.max, offset: params.offset)
 			{
-				if(params.museum) 	{ ilike("mus.name", "%" + params.museum + "%") }
-				if(params.school)	{ ilike("sch.name", "%" + params.school + "%") }
-				if(user && user.roles.collect{it.name}.contains(AdminsService.ADMIN_ROLE) == false)//restrict to affiliate visits if NOT admin
+				createAlias('museum', 'mus')
+				createAlias('school', 'sch')
+				and
 				{
-					'in'("mus.name", user.getAffiliationsByStatus(StatusEnum.ACCEPTED).collect{it.name})
-				}
-				if(params.sort && params.order) 
-				{ 
-					if(params.sort == 'museum.name'){		order("mus.name", params.order)}
-					else if(params.sort == 'school.name'){	order("sch.name", params.order)}
-					else
-					{									
-						order(params.sort, params.order)
+					if(params.museum) 	{ ilike("mus.name", "%" + params.museum + "%") }
+					if(params.school)	{ ilike("sch.name", "%" + params.school + "%") }
+					if(affiliations && affiliations?.size() > 0)//restrict to affiliate visits if NOT admin
+					{
+						'in'("mus.name", affiliations.collect{it.name})
+					}
+					if(params.sort && params.order) 
+					{ 
+						if(params.sort == 'museum.name'){		order("mus.name", params.order)}
+						else if(params.sort == 'school.name'){	order("sch.name", params.order)}
+						else
+						{									
+							order(params.sort, params.order)
+						}
 					}
 				}
 			}
 		}
-		[visitInstanceList: results,visitInstanceTotal:results.totalCount]
+		[visitInstanceList: results, visitInstanceTotal: (results ? results.totalCount : 0)]
 	}
 		
 	def create = 
