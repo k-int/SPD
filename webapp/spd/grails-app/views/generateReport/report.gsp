@@ -34,6 +34,6 @@
 
 <ul>
   <g:if test="${(omitted_row_count != null) && (omitted_row_count > 0)}">
-    <li>${omitted_row_count} rows were omitted from this report because they had no data, and the report omit_zero_sum_rows parameter is set to true</li>
+    <li>${omitted_row_count} rows were omitted from this report because they had no data, and the report omit_zero_sum_rows parameter is set to ${params.omit_zero_sum_rows}</li>
   </g:if>
 </ul>

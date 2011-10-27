@@ -67,6 +67,10 @@ class VisitController {
 	def save = {
 		params.museum = Museum.findByName(params.museum.name)
 		params.school = School.findByName(params.school.name)
+		params.visitYear = params.visitDate.toCalendar().get(Calendar.YEAR);
+		
+		println(params.visitYear);
+		
 		def visitInstance = new Visit(params)
 		if (visitInstance.save(flush: true)) {
 			flash.message = "${message(code: 'default.created.message', args: [message(code: 'visit.label', default: 'Visit'), visitInstance.id])}"

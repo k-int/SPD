@@ -17,8 +17,9 @@ class GenerateReportController {
     result.result_grid = []
 
     def x_axis_name = params.x_axis_name; // 'schoolRegion'
-    def y_axis_name = params.y_axis_name; // 'museum'
-    def omit_zero_sum_rows = true
+    def y_axis_name = params.y_axis_name; // 'museum'	
+    def omit_zero_sum_rows = params.omit_zero_sum_rows;
+	
     result.omitted_row_count = 0;
 
     // 1. Obtain reporting configuration

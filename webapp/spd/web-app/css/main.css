@@ -326,6 +326,17 @@ form li
 	text-shadow: none;
 }
 
+.button-link-disabled
+{
+	color: gray !important;
+	cursor:default;
+}
+
+.button-link-disabled:hover
+{
+	background-color: #e5e5e5 !important;
+}
+
 .flt-right
 {
 	float:right;
