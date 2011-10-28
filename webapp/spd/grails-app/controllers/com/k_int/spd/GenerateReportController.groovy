@@ -83,7 +83,7 @@ class GenerateReportController {
 
         def row = [:]
         row.type = 'data'
-        row.label = "${'&nbsp;'.multiply(y_axis_key.size()-1)}${y_axis_key[y_axis_key.size()-1]}"
+        row.label = "${''.multiply(y_axis_key.size()-1)}${y_axis_key[y_axis_key.size()-1]}"
         row.key = y_axis_key[0]
         row.values = []
         row.sum = 0;

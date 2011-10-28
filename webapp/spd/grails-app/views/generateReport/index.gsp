@@ -30,6 +30,10 @@
 	   		<label for="omit_zero_sum_rows">No zero sum rows</label>
 	   		<g:select name="omit_zero_sum_rows" from="[true,false]" class="medium"/>
 	   	</li>
+	   	<li>          		
+	   		<label for="format">Format</label>
+	   		<g:select name="format" from="['html','csv']" class="medium"/>
+	   	</li>
 	   	<li>
 	   	&nbsp;
 	   	</li>
@@ -56,7 +60,9 @@
 			
 			$('select').change(function()
 			{
-				$('.button-link').attr('href', '/spd/generateReport/report?target_config=visit&x_axis_name=' + $('select[name="x_axis_name"] option:selected').val() + '&y_axis_name=' + $('select[name="y_axis_name"] option:selected').val()  + '&omit_zero_sum_rows=' + $('select[name="omit_zero_sum_rows"] option:selected').val());
+				var format = ($('select[name="format"] option:selected').val() == 'csv' ? '.csv' : '');
+			
+				$('.button-link').attr('href', '/spd/generateReport/report' + format + '?target_config=visit&x_axis_name=' + $('select[name="x_axis_name"] option:selected').val() + '&y_axis_name=' + $('select[name="y_axis_name"] option:selected').val()  + '&omit_zero_sum_rows=' + $('select[name="omit_zero_sum_rows"] option:selected').val());
 
 				if($('select[name="x_axis_name"] option:selected').val() == $('select[name="y_axis_name"] option:selected').val() 
 				|| $('select[name="x_axis_name"] option:selected').val().length == 0 

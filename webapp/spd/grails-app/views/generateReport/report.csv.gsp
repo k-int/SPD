@@ -1,1 +1,2 @@
-This will be used to generate the GSP
+"",<g:each in="${header_row}" var="col">"${col}",</g:each><g:each in="${result_grid}" var="row">
+<g:if test="${row.type=='heading'}">"${row.value}",</g:if><g:else>"${row.label}",<g:each in="${row.values}" var="value">"${value}",</g:each></g:else></g:each>
