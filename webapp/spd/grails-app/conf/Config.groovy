@@ -101,7 +101,7 @@ reportingCfg = [
     aliases:[
       [ property:'school', alias:'sch1' ]
     ],
-    reportingAxis: [
+    'reportingAxis': [
       schoolRegion : [
         axisType:'simple',
         label:'Region of the visiting school',

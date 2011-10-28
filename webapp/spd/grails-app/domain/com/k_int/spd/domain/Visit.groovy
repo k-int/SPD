@@ -6,6 +6,7 @@ class Visit {
   Museum museum
   Date visitDate
   long partySize = 0
+  Long visitYear
 
   def classifiers = []
 
