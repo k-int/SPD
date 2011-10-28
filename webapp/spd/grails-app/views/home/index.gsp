@@ -24,6 +24,12 @@
       </p>
       <div style="margin-top:15px;">
       </div>
+      <div class="info1">
+      	<p>Manage your network of affiliations</p>
+      </div>
+      <div class="info2">
+      	<p>Record visits to your Institution</p>
+      </div>
     </body>
 </html>
 

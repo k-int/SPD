@@ -43,12 +43,13 @@ class AffiliationController {
 		{
 			affiliationInstance.status = StatusEnum.ACCEPTED;
 			affiliationInstance.save(flush: true)
-			redirect(action: "list")
 		}
 		else
 		{
-			render(view: "list", model: [affiliationInstance: affiliationInstance])
+			flash.message = "Unable to grant affiliation request as none was selected."
 		}
+		
+		redirect(action: "list")
 	}
 	
 	def reject =
@@ -58,12 +59,12 @@ class AffiliationController {
 		{
 			affiliationInstance.status = StatusEnum.REJECTED;
 			affiliationInstance.save(flush: true)
-			redirect(action: "list")
 		}
 		else
 		{
-			render(view: "list", model: [affiliationInstance: affiliationInstance])
+			flash.message = "Unable to reject affiliation request as none was selected."
 		}
+		redirect(action: "list")
 	}
 	
 	def list =
@@ -116,7 +117,14 @@ class AffiliationController {
 	
 	def delete = 
 	{
-		Affiliation.unlink(params.id)
+		if(params.id)
+		{
+			Affiliation.unlink(params.id)
+		}
+		else
+		{
+			flash.message = "Unable to delete affiliation as none was selected."
+		}
 		redirect(action: "list")
 	}
 	

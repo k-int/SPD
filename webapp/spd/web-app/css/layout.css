@@ -56,6 +56,10 @@
 	font-size: 15px;
 	font-family: arial;
 	line-height: 18px;
+	
+	/*ie 7 fix */
+	zoom:1;
+	*display: inline;
 }
 
 #nav-inner span
@@ -83,14 +87,20 @@
 	font-weight: bold;
     text-decoration: none;
     vertical-align: top;
+    
+    /*ie 7 fix */
+	zoom:1;
+	*display: inline;
+	z-index: 500;
 }
 
 #nav-inner a:active,
 #nav-inner a:hover
 {
-	background-color: white;
+	-webkit-box-shadow: inset 0px -5px 5px #cecece;
 	-moz-box-shadow: inset 0px -5px 5px #cecece;
 	box-shadow: inset 0px -5px 5px #cecece;
+	background-color: white;
 }
 
 #nav-inner a.active:link,

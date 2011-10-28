@@ -1,0 +1,19 @@
+.info2 p
+{
+	background: url(../images/school_bus.png) center left no-repeat !important;
+}
+
+.info1 p
+{
+	background: url(../images/social_network.png) center left no-repeat !important;
+}
+ 
+#nav-inner a.secondary:link
+{
+	/*border-bottom: 5px solid transparent;*/
+}
+
+#nav-inner a:link
+{
+	border-bottom: 5px solid transparent;
+}

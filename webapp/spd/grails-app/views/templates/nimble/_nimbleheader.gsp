@@ -13,6 +13,7 @@
 $(document).ready(function () 
 {
 	$('head').append('<link rel="stylesheet" href="/spd/css/layout.css" type="text/css" />');
+	$('head').append('<!--[if lt IE 10]><link rel="stylesheet" href="/spd/css/ie7.css" /><![endif]-->');
 });
 </g:javascript>
 <div id="nav-outer">

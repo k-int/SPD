@@ -13,6 +13,9 @@
 		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.min.js"></script>
 		<script src="${resource(dir:'js/plugin', file:'jquery.qtip.min.js')}" type="text/javascript"></script>      
         <g:javascript library="application" />  
+		<!--[if lt IE 8]>
+		<link rel="stylesheet" href="${resource(dir:'css',file:'ie7.css')}" />
+		<![endif]-->
         <g:layoutHead />
     </head>
     <body>
@@ -46,14 +49,6 @@
     		<div id="footer-inner">
     			<img src="/spd/images/col_trust_small.png" />
     			<span>Schools Participation Database &copy; 2011 Collections Trust</span>
-    			<ul>
-    				<li><g:link controller="home" action="index" class="nav-home">Home</g:link></li>
-    				<li>|</li>
-    				<li><a href="#">Contact us</a></li>
-    				<li>|</li>
-    				<li><a href="#">Terms of Service</a></li>
-    				
-    			</ul>
     		</div>
     	</div>
     </body>
