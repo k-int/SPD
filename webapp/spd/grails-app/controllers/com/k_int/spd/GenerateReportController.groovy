@@ -19,6 +19,7 @@ class GenerateReportController {
     def x_axis_name = params.x_axis_name; // 'schoolRegion'
     def y_axis_name = params.y_axis_name; // 'museum'	
     def omit_zero_sum_rows = params.omit_zero_sum_rows;
+    def groupby_subtotals
 	
     result.omitted_row_count = 0;
 
@@ -50,7 +51,7 @@ class GenerateReportController {
 
       // Group by subtotals are a 2d array, first index is the index of the y axis group-by field
       // second index is the x-axis values for that y-axis field
-      def groupby_subtotals = new long[y_axis_config.keyProperties.size()-1][x_axis_head.size()]
+      groupby_subtotals = new long[y_axis_config.keyProperties.size()-1][x_axis_head.size()]
 
       log.debug("Got both axis values...(x!=null: ${x_axis_head != null}, y!=null: ${y_axis_head != null}). generate report...");
 
@@ -171,6 +172,8 @@ class GenerateReportController {
     else {
       log.error("Unable to locate configuration with id ${target_config_name}");
     }
+
+    result.result_grid.add(['type':'subtotal','values':groupby_subtotals[0],'label':"Totals"])
 
     withFormat {
       html result
