@@ -533,7 +533,7 @@ a.edit:hover
 .info1 p:before
 {
 	display: block;
-	content: url(../images/social_network.png);
+	content: url(../images/report.png);
 	position: absolute;
 	left: 20px;
 	top: 10px;
@@ -557,3 +557,25 @@ a.edit:hover
 	top: 10px;
 	content: url(../images/school_bus.png);
 }
+
+/*#Grid thead tr
+{
+	display: block;
+}
+
+#Grid thead.Fixed
+{
+    position: absolute;
+}*/
+
+#Grid 
+{
+	border-collapse: separate;	
+}
+
+#Grid tbody
+{
+	height:500px;
+	overflow: auto;
+}
+

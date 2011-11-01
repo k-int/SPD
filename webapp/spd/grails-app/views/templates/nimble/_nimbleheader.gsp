@@ -22,18 +22,20 @@ $(document).ready(function ()
 			<li><g:link controller="home" action="index" class="nav-home">Home</g:link></li>
 			<n:isLoggedIn>
 			<li><g:link controller="visit" action="search" class="nav-visit">Visits</g:link></li>
-			<li><g:link controller="affiliation" action="list" class="nav-affiliation">Affiliations</g:link></li>
+			<li><g:link controller="affiliation" action="list" class="nav-affiliation">My Museums</g:link></li>
 			<n:isAdministrator>
 			<li><g:link controller="museum" action="search" class="nav-museum">Museums</g:link></li>
 			<li><g:link controller="school" action="search" class="nav-school">Schools</g:link></li>
 			<li><g:link controller="region" action="list" class="nav-region">Regions</g:link></li>
+			</n:isAdministrator>
 			<li><g:link controller="generateReport" action="index" class="nav-report">Reports</g:link></li>
+			<n:isAdministrator>
 			<li><g:link url="/spd/administration/users/list">Admin</g:link></li>
 			</n:isAdministrator>
 			<li><g:link controller="auth" action="logout" class="secondary">Logout</g:link></li>
 			</n:isLoggedIn>
 			<n:isNotLoggedIn>
-			<li><g:link controller="securedHome" action="index" class="nav-login secondary">Login</g:link></li>
+			<li><g:link controller="visit" action="search" class="nav-login secondary">Login</g:link></li>
 			<li><g:link url="register" class="nav-register secondary">Register</g:link></li>
 			</n:isNotLoggedIn>
 		</ul>

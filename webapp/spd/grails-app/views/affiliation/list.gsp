@@ -13,7 +13,12 @@
         </g:javascript>
     </head>
     <body>
-		<h1>Affiliations</h1>
+    	<n:isAdministrator>
+	    	<h1>Managed Museums</h1>
+	    </n:isAdministrator>
+	   	<n:lacksRole name="SYSTEM ADMINISTRATOR">
+			<h1>My Museums</h1>
+	    </n:lacksRole>
 		<g:if test="${flash.message}">
 			<div class="message">${flash.message}</div>
 		</g:if>
