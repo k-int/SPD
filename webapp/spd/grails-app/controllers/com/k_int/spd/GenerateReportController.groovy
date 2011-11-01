@@ -50,7 +50,7 @@ class GenerateReportController {
 
       // Group by subtotals are a 2d array, first index is the index of the y axis group-by field
       // second index is the x-axis values for that y-axis field
-      def groupby_subtotals = new int[y_axis_head.size()-1][x_axis_head.size()]
+      def groupby_subtotals = new long[y_axis_config.keyProperties.size()-1][x_axis_head.size()]
 
       log.debug("Got both axis values...(x!=null: ${x_axis_head != null}, y!=null: ${y_axis_head != null}). generate report...");
 
@@ -94,8 +94,13 @@ class GenerateReportController {
 
             // If there are totals for the last group-by, we should emit them here!
             if ( ( last_row_columns[i-1] != null ) && ( last_row_columns[i-1].length() > 0 ) ) {
-              result.result_grid.add(['type':'subtotal','values':[],'label':"${last_row_columns[i-1]}(${i}) (ST)"])
-              log.debug("subtotals: ${groupby_subtotals}");
+              log.debug("Adding subtotals[${i}]: ${groupby_subtotals}");
+              def subtotals = []
+              for ( int i2=0; i2<groupby_subtotals[i].size(); i2++) {
+                subtotals.add(groupby_subtotals[i][i2]);
+                groupby_subtotals[i][i2] = 0;
+              }
+              result.result_grid.add(['type':'subtotal','values':subtotals,'label':"${last_row_columns[i-1]}(${i}) (ST)"])
             }
 
             // If the group by property has changed, emit the totals row
@@ -137,8 +142,8 @@ class GenerateReportController {
           row.values.add( total ?: 0 )
 
           // Add the value of this cell to the running count for each group-by expression (Eg, if we are iterating museums, increment the total for region)
-          for ( int sti = 0; sti < groupby_subtotals.size(); cti++ ) {
-            groupby_subtotals[sti][ctr] += total;
+          for ( int sti = 0; sti < groupby_subtotals.size(); sti++ ) {
+            groupby_subtotals[sti][ctr] += total ?: 0;
           }
           ctr++;
         }
@@ -157,9 +162,11 @@ class GenerateReportController {
       log.debug("Emit last subtotal row for ${last_row_columns}");
       for ( int i=0; i<last_row_columns.size(); i++ ) {
         if ( ( last_row_columns[i] != null ) && ( last_row_columns[i].length() > 0 ) ) {
-          result.result_grid.add(['type':'subtotal','values':[],'label':"${last_row_columns[i]}(${i}) (ST)"])
+          result.result_grid.add(['type':'subtotal','values':groupby_subtotals[i+1],'label':"${last_row_columns[i]}(${i}) (ST)"])
         }
       }
+
+      log.debug("Grand total: ${groupby_subtotals[0]}");
     }
     else {
       log.error("Unable to locate configuration with id ${target_config_name}");

@@ -35,14 +35,13 @@
         <tr><td><b>${row.value}</b></td></tr>
       </g:if>
       <g:elseif test="${row.type=='subtotal'}">
-        <tr><td><b>${row.label}</b></td></tr>
+        <tr>
+          <td><b>${row.label}</b></td><g:each in="${row.values}" var="value"><td>${value}</td></g:each>
+        </tr>
       </g:elseif>
       <g:else>
         <tr>
-          <td>${row.label}</td>
-          <g:each in="${row.values}" var="value">
-            <td>${value}</td>
-          </g:each>
+          <td>${row.label}</td><g:each in="${row.values}" var="value"><td>${value}</td></g:each>
         </tr>
       </g:else>
 
