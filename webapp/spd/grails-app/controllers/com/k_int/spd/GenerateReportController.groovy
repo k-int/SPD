@@ -101,7 +101,7 @@ class GenerateReportController {
                 subtotals.add(groupby_subtotals[i][i2]);
                 groupby_subtotals[i][i2] = 0;
               }
-              result.result_grid.add(['type':'subtotal','values':subtotals,'label':"${last_row_columns[i-1]}(${i}) (ST)"])
+              result.result_grid.add(['type':'subtotal','values':subtotals,'label':"Subtotal for ${last_row_columns[i-1]}"])
             }
 
             // If the group by property has changed, emit the totals row
