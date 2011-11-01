@@ -48,6 +48,10 @@ class GenerateReportController {
       log.debug("5. Determine the interval headings for the y axis");
       def y_axis_head = determineHeadings(domain_class, y_axis_config)
 
+      // Group by subtotals are a 2d array, first index is the index of the y axis group-by field
+      // second index is the x-axis values for that y-axis field
+      def groupby_subtotals = new int[y_axis_head.size()-1][x_axis_head.size()]
+
       log.debug("Got both axis values...(x!=null: ${x_axis_head != null}, y!=null: ${y_axis_head != null}). generate report...");
 
 
@@ -91,6 +95,7 @@ class GenerateReportController {
             // If there are totals for the last group-by, we should emit them here!
             if ( ( last_row_columns[i-1] != null ) && ( last_row_columns[i-1].length() > 0 ) ) {
               result.result_grid.add(['type':'subtotal','values':[],'label':"${last_row_columns[i-1]}(${i}) (ST)"])
+              log.debug("subtotals: ${groupby_subtotals}");
             }
 
             // If the group by property has changed, emit the totals row
@@ -108,6 +113,7 @@ class GenerateReportController {
         row.values = []
         row.sum = 0;
 
+        def ctr = 0;
         x_axis_head.each { x_axis_key ->
           // log.debug(" -> Sum over y(${y_axis_config.joinProperty})=${y_axis_key}, x(${x_axis_config.joinProperty})=${x_axis_key}");
           // This query will generate a result set containing a value for each column in the row
@@ -126,8 +132,15 @@ class GenerateReportController {
           }
           def total = result_list.get(0);
           row.sum += total ?: 0;
+
           // Transpose the result set row to the appropriate column in the result set.
           row.values.add( total ?: 0 )
+
+          // Add the value of this cell to the running count for each group-by expression (Eg, if we are iterating museums, increment the total for region)
+          for ( int sti = 0; sti < groupby_subtotals.size(); cti++ ) {
+            groupby_subtotals[sti][ctr] += total;
+          }
+          ctr++;
         }
 
         if ( ( row.sum > 0 ) || ( !omit_zero_sum_rows) )
