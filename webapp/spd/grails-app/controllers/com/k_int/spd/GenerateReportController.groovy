@@ -62,25 +62,45 @@ class GenerateReportController {
       log.debug("x-axis: ${x_axis_head}");
 
       result.title = "${target_config.label} broken down by ${y_axis_config.label} (Vertical) against ${x_axis_config.label} (Horizontal)"
+      result.x_axis_label = x_axis_config.label
+      result.y_axis_label = y_axis_config.label
 
       def int total_y_values = y_axis_head.size();
       def int y_values_position = 0;
 
 
+      // y_axis_head is a list of the key values for every row in this report (Scalar or range).
       y_axis_head.each { y_axis_key ->
         // log.debug("Process row for key ${y_axis_key}")
 
+        // This section deals with adding a heading row for groups of records. It detects changes in a group-by property and emits
+        // a heading row ahead of any group records with spaces in the value cells.
+        // We iterate through every key value for this row
         for ( int i=1; i<(y_axis_key.size()-1); i++ ) {
+
+          // Skip the changing values in the row headings
+          // If this is the first time through, initialise the last row keys list so we can do sensible comparisons.
           if ( last_row_columns.size() < i ) {
             last_row_columns.add("");
           }
 
+
+          // If the value of the group-by key has changed, we need to emit totals
           if ( y_axis_key[i] != last_row_columns[i-1] ) {
+
+            // If there are totals for the last group-by, we should emit them here!
+            if ( ( last_row_columns[i-1] != null ) && ( last_row_columns[i-1].length() > 0 ) ) {
+              result.result_grid.add(['type':'subtotal','values':[],'label':"${last_row_columns[i-1]}(${i}) (ST)"])
+            }
+
+            // If the group by property has changed, emit the totals row
             result.result_grid.add(['type':'heading','value':y_axis_key[i]])
+            // And update the status variable for tracking the next group
             last_row_columns[i-1]=y_axis_key[i]
           }
         }
 
+        // Now emit the actual row values
         def row = [:]
         row.type = 'data'
         row.label = "${''.multiply(y_axis_key.size()-1)}${y_axis_key[y_axis_key.size()-1]}"
@@ -118,6 +138,14 @@ class GenerateReportController {
         //if ( ( y_values_position++ % 50 ) == 0 ) {
         //  log.debug("Processed ${y_values_position} out of ${total_y_values} - ${y_axis_key}");
         //}
+      }
+
+      // At the end we need to output subtotals for the last group of records...
+      log.debug("Emit last subtotal row for ${last_row_columns}");
+      for ( int i=0; i<last_row_columns.size(); i++ ) {
+        if ( ( last_row_columns[i] != null ) && ( last_row_columns[i].length() > 0 ) ) {
+          result.result_grid.add(['type':'subtotal','values':[],'label':"${last_row_columns[i]}(${i}) (ST)"])
+        }
       }
     }
     else {
