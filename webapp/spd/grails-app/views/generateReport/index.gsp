@@ -20,19 +20,19 @@
     <ul>
 	   	<li>
 	   		<label for="x_axis_name">X-Axis</label>
-	   		<g:select name="x_axis_name" from="${grailsApplication.config.reportingCfg.visit.reportingAxis.keySet()}" class="medium" noSelection="['':'']"/>
+	   		<g:select name="x_axis_name" from="${grailsApplication.config.reportingCfg.visit.reportingAxis.entrySet()}" optionKey="key" optionValue="${{it.value.reportingLabel}}" class="medium" noSelection="['':'']"/>
 	    </li>
 	    <li>          		
 	   		<label for="y_axis_name">Y-Axis</label>
-	   		<g:select name="y_axis_name" from="${grailsApplication.config.reportingCfg.visit.reportingAxis.keySet()}" class="medium" noSelection="['':'']"/>
+	   		<g:select name="y_axis_name" from="${grailsApplication.config.reportingCfg.visit.reportingAxis.entrySet()}" optionKey="key" optionValue="${{it.value.reportingLabel}}" class="medium" noSelection="['':'']"/>
 	   	</li>
 	   	<li>          		
-	   		<label for="omit_zero_sum_rows">No zero sum rows</label>
+	   		<label for="omit_zero_sum_rows">Hide empty rows</label>
 	   		<g:select name="omit_zero_sum_rows" from="[true,false]" class="medium"/>
 	   	</li>
 	   	<li>          		
 	   		<label for="format">Format</label>
-	   		<g:select name="format" from="['html','csv']" class="medium"/>
+	   		<g:select name="format" from="['html','html(styled)','csv']" class="medium"/>
 	   	</li>
 	   	<li>
 	   	&nbsp;
@@ -62,7 +62,9 @@
 			{
 				var format = ($('select[name="format"] option:selected').val() == 'csv' ? '.csv' : '');
 			
-				$('.button-link').attr('href', '/spd/generateReport/report' + format + '?target_config=visit&x_axis_name=' + $('select[name="x_axis_name"] option:selected').val() + '&y_axis_name=' + $('select[name="y_axis_name"] option:selected').val()  + '&omit_zero_sum_rows=' + $('select[name="omit_zero_sum_rows"] option:selected').val());
+				var styled = ($('select[name="format"] option:selected').val() == 'html(styled)' ? '&styled=true' : '');
+			
+				$('.button-link').attr('href', '/spd/generateReport/report' + format + '?target_config=visit&x_axis_name=' + $('select[name="x_axis_name"] option:selected').val() + '&y_axis_name=' + $('select[name="y_axis_name"] option:selected').val()  + '&omit_zero_sum_rows=' + $('select[name="omit_zero_sum_rows"] option:selected').val() + styled);
 
 				if($('select[name="x_axis_name"] option:selected').val() == $('select[name="y_axis_name"] option:selected').val() 
 				|| $('select[name="x_axis_name"] option:selected').val().length == 0 

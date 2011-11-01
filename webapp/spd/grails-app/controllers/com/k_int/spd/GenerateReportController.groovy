@@ -5,7 +5,7 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 class GenerateReportController {
 
   def index = { 
-  }
+  }  
 
   def report = {
 
@@ -232,4 +232,7 @@ class GenerateReportController {
     }
   
   }
+  
+  
+ 
 }
