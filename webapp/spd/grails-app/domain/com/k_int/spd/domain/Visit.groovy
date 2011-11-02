@@ -8,9 +8,7 @@ class Visit {
   long partySize = 0
   Long visitYear
 
-  def classifiers = []
-
-  static hasMany = [classifiers:Classifier]
+  static hasMany = [postings:Classifier]
 
   static constraints = {
   }
