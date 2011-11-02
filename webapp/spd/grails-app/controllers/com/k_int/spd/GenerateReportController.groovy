@@ -132,13 +132,16 @@ class GenerateReportController {
           // log.debug(" -> Sum over y(${y_axis_config.joinProperty})=${y_axis_key}, x(${x_axis_config.joinProperty})=${x_axis_key}");
           // This query will generate a result set containing a value for each column in the row
           def result_qry = domain_class.getClazz().createCriteria()
+
           def result_list = result_qry.list {
             target_config.aliases?.each { ad ->
               createAlias(ad.property,ad.alias)
             }
             and {
-              eq(y_axis_config.joinProperty,y_axis_key[0])
-              eq(x_axis_config.joinProperty,x_axis_key[0])
+              // eq(y_axis_config.joinProperty,y_axis_key[0])
+              buildAxisCriteria(result_qry,y_axis_config.joinProperty,y_axis_key[0])
+              // eq(x_axis_config.joinProperty,x_axis_key[0])
+              buildAxisCriteria(result_qry,x_axis_config.joinProperty,x_axis_key[0])
             }
             projections {
               sum(target_config.reportingProperty)
@@ -243,6 +246,10 @@ class GenerateReportController {
     result
   }
   
+
+  def buildAxisCriteria(builder, property, value) {
+    builder.eq(property,value)
+  }
   
  
 }
