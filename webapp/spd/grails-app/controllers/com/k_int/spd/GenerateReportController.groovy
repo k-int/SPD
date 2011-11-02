@@ -49,9 +49,17 @@ class GenerateReportController {
       log.debug("5. Determine the interval headings for the y axis");
       def y_axis_head = determineHeadings(domain_class, y_axis_config)
 
+      if ( x_axis_head == null )
+        log.error("X Axis Head failed to populate");
+
+      if ( y_axis_config.keyProperties == null )
+        log.error("Y Axis keyProperties are null");
+      
+      def y_axis_key_count = y_axis_config.keyProperties.size()
+
       // Group by subtotals are a 2d array, first index is the index of the y axis group-by field
       // second index is the x-axis values for that y-axis field
-      groupby_subtotals = new long[y_axis_config.keyProperties.size()-1][x_axis_head.size()]
+      groupby_subtotals = new long[y_axis_key_count][x_axis_head.size()]
 
       log.debug("Got both axis values...(x!=null: ${x_axis_head != null}, y!=null: ${y_axis_head != null}). generate report...");
 
@@ -166,8 +174,6 @@ class GenerateReportController {
           result.result_grid.add(['type':'subtotal','values':groupby_subtotals[i+1],'label':"Subtotal for ${last_row_columns[i]}"])
         }
       }
-
-      log.debug("Grand total: ${groupby_subtotals[0]}");
     }
     else {
       log.error("Unable to locate configuration with id ${target_config_name}");
@@ -188,7 +194,7 @@ class GenerateReportController {
   // Return a list containing lists of <key, column head, column head, column head>
   def determineHeadings(base_domain_class, axis_config) {
     def result = []
-    log.debug("determineHeadings(${base_domain_class},...)");
+    log.debug("determineHeadings ${axis_config.label}...)");
 
     // We support 2 axis types: Simple (Where the values driving an axis come from a simple select, and projection, where they are derived through some 
     // set operations on the source table.
@@ -233,7 +239,8 @@ class GenerateReportController {
         log.error("Unhandled or missing config type for y axis");
         break;
     }
-  
+    log.debug("Result of determineHeadings ${base_domain_class}, ${axis_config.label} : count-${(result != null ? result.size() : 'result null')}");
+    result
   }
   
   

@@ -130,6 +130,7 @@ reportingCfg = [
         axisType:'projection',
         label:'Year of visit',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        keyProperties:['year'],
         reportingDomain:'visitYear',
         reportingLabel:'visitYear',
         joinProperty:'visitYear'

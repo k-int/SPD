@@ -19,12 +19,12 @@
     <g:hiddenField name="target_config" value="visit"/>
     <ul>
 	   	<li>
-	   		<label for="x_axis_name">X-Axis</label>
-	   		<g:select name="x_axis_name" from="${grailsApplication.config.reportingCfg.visit.reportingAxis.entrySet()}" optionKey="key" optionValue="${{it.value.reportingLabel}}" class="medium" noSelection="['':'']"/>
+	   		<label for="x_axis_name">X-Axis (Horizontal)</label>
+	   		<g:select name="x_axis_name" from="${grailsApplication.config.reportingCfg.visit.reportingAxis.entrySet()}" optionKey="key" optionValue="${{it.value.label}}" class="medium" noSelection="['':'']"/>
 	    </li>
 	    <li>          		
-	   		<label for="y_axis_name">Y-Axis</label>
-	   		<g:select name="y_axis_name" from="${grailsApplication.config.reportingCfg.visit.reportingAxis.entrySet()}" optionKey="key" optionValue="${{it.value.reportingLabel}}" class="medium" noSelection="['':'']"/>
+	   		<label for="y_axis_name">Y-Axis (Vertical)</label>
+	   		<g:select name="y_axis_name" from="${grailsApplication.config.reportingCfg.visit.reportingAxis.entrySet()}" optionKey="key" optionValue="${{it.value.label}}" class="medium" noSelection="['':'']"/>
 	   	</li>
 	   	<li>          		
 	   		<label for="omit_zero_sum_rows">Hide empty rows</label>
