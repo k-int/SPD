@@ -1,0 +1,2 @@
+http://localhost:8080/spd/generateReport/report?target_config=visit&x_axis_name=visitYear&y_axis_name=museum&omit_zero_sum_rows=true&styled=true
+
