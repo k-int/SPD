@@ -163,7 +163,7 @@ class GenerateReportController {
       log.debug("Emit last subtotal row for ${last_row_columns}");
       for ( int i=0; i<last_row_columns.size(); i++ ) {
         if ( ( last_row_columns[i] != null ) && ( last_row_columns[i].length() > 0 ) ) {
-          result.result_grid.add(['type':'subtotal','values':groupby_subtotals[i+1],'label':"${last_row_columns[i]}(${i}) (ST)"])
+          result.result_grid.add(['type':'subtotal','values':groupby_subtotals[i+1],'label':"Subtotal for ${last_row_columns[i]}"])
         }
       }
 
