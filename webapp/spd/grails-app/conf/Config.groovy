@@ -110,7 +110,20 @@ reportingCfg = [
         keyProperties:['id','regionName'],
         reportingLabel:'regionName',
         sortOrder:['regionName'],
-        joinProperty:'sch1.region.id'
+        joinProperty:'sch1.region.id',
+        // Experimental alternative to joinProperty
+        criteria:[
+          type:'join',
+          table:'sch1',
+          children:[
+            type:'join',
+            table:'region',
+            children:[
+              type:'eq',
+              col:'id'
+            ]
+          ]
+        ]
       ],
       museum : [
         aliases:[
@@ -124,7 +137,16 @@ reportingCfg = [
         keyProperties:['id','rgn1.regionName','name'],
         reportingLabel:'name',
         sortOrder:['rgn1.regionName','name'],
-        joinProperty:'museum.id'
+        joinProperty:'museum.id',
+        // Experimental alternative to joinProperty
+        criteria:[
+          type:'join',
+          table:'museum',
+          children:[
+            type:'eq',
+            col:'id'
+          ]
+        ]
       ],
       visitYear : [
         axisType:'projection',
@@ -133,7 +155,11 @@ reportingCfg = [
         keyProperties:['year'],
         reportingDomain:'visitYear',
         reportingLabel:'visitYear',
-        joinProperty:'visitYear'
+        joinProperty:'visitYear',
+        criteria:[
+          type:'eq',
+          col:'visitYear'
+        ]
       ]
     ]
   ]

@@ -139,14 +139,17 @@ class GenerateReportController {
             }
             and {
               // eq(y_axis_config.joinProperty,y_axis_key[0])
-              buildAxisCriteria(result_qry,y_axis_config.joinProperty,y_axis_key[0])
+              buildAxisCriteria(result_qry,y_axis_config.criteria,y_axis_key[0])
               // eq(x_axis_config.joinProperty,x_axis_key[0])
-              buildAxisCriteria(result_qry,x_axis_config.joinProperty,x_axis_key[0])
+              buildAxisCriteria(result_qry,x_axis_config.criteria,x_axis_key[0])
             }
             projections {
               sum(target_config.reportingProperty)
             }
           }
+
+          // log.debug("qry: ${result_qry.toString()}");
+
           def total = result_list.get(0);
           row.sum += total ?: 0;
 
@@ -247,8 +250,21 @@ class GenerateReportController {
   }
   
 
-  def buildAxisCriteria(builder, property, value) {
-    builder.eq(property,value)
+  // This method takes an index configuration and builds the appropriate
+  // subtree in the query builder.
+  def buildAxisCriteria(builder, config, value) {
+    // builder.eq(property,value)
+    switch(config.type) {
+      case 'join':
+        def newbuilder = builder."${config.table}"
+        buildAxisCriteria(newbuilder, config.children, value);
+        break;
+      case 'eq':
+        builder.eq(config.col,value)
+        break;
+      default:
+        break;
+    }
   }
   
  
