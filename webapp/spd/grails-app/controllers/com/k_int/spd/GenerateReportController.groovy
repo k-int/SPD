@@ -256,8 +256,9 @@ class GenerateReportController {
     // builder.eq(property,value)
     switch(config.type) {
       case 'join':
-        def newbuilder = builder."${config.table}"
-        buildAxisCriteria(newbuilder, config.children, value);
+        builder."${config.table}" {
+          buildAxisCriteria(builder, config.children, value)
+        }
         break;
       case 'eq':
         builder.eq(config.col,value)

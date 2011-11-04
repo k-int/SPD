@@ -99,7 +99,7 @@ reportingCfg = [
     reportingProperty:'partySize',
     label:'Total Visitors',
     aliases:[
-      [ property:'school', alias:'sch1' ]
+      // [ property:'school', alias:'sch1' ]
     ],
     'reportingAxis': [
       schoolRegion : [
@@ -110,11 +110,11 @@ reportingCfg = [
         keyProperties:['id','regionName'],
         reportingLabel:'regionName',
         sortOrder:['regionName'],
-        joinProperty:'sch1.region.id',
+        joinProperty:'school.region.id',
         // Experimental alternative to joinProperty
         criteria:[
           type:'join',
-          table:'sch1',
+          table:'school',
           children:[
             type:'join',
             table:'region',
