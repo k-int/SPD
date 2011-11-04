@@ -72,7 +72,7 @@ class GenerateReportController {
         result.header_row.add("${it[1]}")
       }
 
-      log.debug("x-axis: ${x_axis_head}");
+      // log.debug("x-axis: ${x_axis_head}");
 
       result.title = "${target_config.label} broken down by ${y_axis_config.label} (Vertical) against ${x_axis_config.label} (Horizontal)"
       result.x_axis_label = x_axis_config.label
@@ -81,6 +81,7 @@ class GenerateReportController {
       def int total_y_values = y_axis_head.size();
       def int y_values_position = 0;
 
+      // log.debug("${total_y_values} Values for Y axis");
 
       // y_axis_head is a list of the key values for every row in this report (Scalar or range).
       y_axis_head.each { y_axis_key ->
@@ -129,7 +130,6 @@ class GenerateReportController {
 
         def ctr = 0;
         x_axis_head.each { x_axis_key ->
-          // log.debug(" -> Sum over y(${y_axis_config.joinProperty})=${y_axis_key}, x(${x_axis_config.joinProperty})=${x_axis_key}");
           // This query will generate a result set containing a value for each column in the row
           def result_qry = domain_class.getClazz().createCriteria()
 
@@ -148,7 +148,7 @@ class GenerateReportController {
             }
           }
 
-          // log.debug("qry: ${result_qry.toString()}");
+          // log.debug("qry: ${result_qry.getInstance().toString()}");
 
           def total = result_list.get(0);
           row.sum += total ?: 0;
@@ -161,6 +161,7 @@ class GenerateReportController {
             groupby_subtotals[sti][ctr] += total ?: 0;
           }
           ctr++;
+          // log.debug(" -> Sum over y(${y_axis_key}, x(${x_axis_key}) = ${total}");
         }
 
         if ( ( row.sum > 0 ) || ( !omit_zero_sum_rows) )
@@ -174,7 +175,7 @@ class GenerateReportController {
       }
 
       // At the end we need to output subtotals for the last group of records...
-      log.debug("Emit last subtotal row for ${last_row_columns}");
+      // log.debug("Emit last subtotal row for ${last_row_columns}");
       for ( int i=0; i<last_row_columns.size(); i++ ) {
         if ( ( last_row_columns[i] != null ) && ( last_row_columns[i].length() > 0 ) ) {
           result.result_grid.add(['type':'subtotal','values':groupby_subtotals[i+1],'label':"Subtotal for ${last_row_columns[i]}"])
@@ -209,10 +210,17 @@ class GenerateReportController {
         log.debug("Simple axis config - Obtaining values from ${axis_config.domainClass}")
         def axis_source_domain_class = grailsApplication.getArtefact("Domain",axis_config.domainClass);
         def y_axis_query = axis_source_domain_class.getClazz().createCriteria();
+        log.debug("axis qry: ${y_axis_query.getInstance().toString()}");
         result = y_axis_query.list {
           axis_config.aliases?.each { ad ->
             createAlias(ad.property,ad.alias)
           }
+
+          // Call the criteria builder with any specific filter criteria
+          if ( axis_config.filterCriteria != null ) {
+            buildAxisCriteria(y_axis_query, axis_config.filterCriteria, null)
+          }
+
           // maxResults(10);
           projections {
             axis_config.keyProperties.each { kp ->
@@ -227,6 +235,7 @@ class GenerateReportController {
       case 'projection':
         log.debug("Projection axis: Create criteria query, axis_path=${axis_config.entityAccessPath}, axis_domain=${axis_config.reportingDomain}");
         def axis_query = base_domain_class.getClazz().createCriteria();
+        log.debug("axis qry: ${axis_query.getInstance().toString()}");
         result = axis_query.list {
           projections {
               if ( ( axis_config.entityAccessPath != null ) && ( axis_config.entityAccessPath.length() > 0 ) ) {
@@ -262,6 +271,9 @@ class GenerateReportController {
         break;
       case 'eq':
         builder.eq(config.col,value)
+        break;
+      case 'eqliteral':
+        builder.eq(config.col,config.lit)
         break;
       default:
         break;

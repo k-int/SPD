@@ -24,9 +24,11 @@ select ID,
        STR_TO_DATE(VisitDate,'%d/%m/%Y')
 from spd_orig.schoolsvisits;
 
-insert into spd_dev.visit_postings(visit_id,classifier_id) select id,2 from spd_orig.schoolsvisits where KSEarly is not null;
-insert into spd_dev.visit_postings(visit_id,classifier_id) select id,3 from spd_orig.schoolsvisits where KS1 is not null;
-insert into spd_dev.visit_postings(visit_id,classifier_id) select id,4 from spd_orig.schoolsvisits where KS2 is not null;
-insert into spd_dev.visit_postings(visit_id,classifier_id) select id,5 from spd_orig.schoolsvisits where KS3 is not null;
-insert into spd_dev.visit_postings(visit_id,classifier_id) select id,6 from spd_orig.schoolsvisits where KS4 is not null;
-insert into spd_dev.visit_postings(visit_id,classifier_id) select id,7 from spd_orig.schoolsvisits where Post16 is not null;
+delete from spd_dev.visit_postings;
+
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,2 from spd_orig.schoolsvisits where KSEarly = 1;
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,3 from spd_orig.schoolsvisits where KS1 = 1;
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,4 from spd_orig.schoolsvisits where KS2 = 1;
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,5 from spd_orig.schoolsvisits where KS3 = 1;
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,6 from spd_orig.schoolsvisits where KS4 = 1;
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,7 from spd_orig.schoolsvisits where Post16 = 1;

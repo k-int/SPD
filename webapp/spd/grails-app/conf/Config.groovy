@@ -110,7 +110,7 @@ reportingCfg = [
         keyProperties:['id','regionName'],
         reportingLabel:'regionName',
         sortOrder:['regionName'],
-        joinProperty:'school.region.id',
+        // joinProperty:'school.region.id',
         // Experimental alternative to joinProperty
         criteria:[
           type:'join',
@@ -123,7 +123,8 @@ reportingCfg = [
               col:'id'
             ]
           ]
-        ]
+        ],
+        sampleHeadings:['Yorkshire and the Humber','region 2','region 3','region 4']
       ],
       museum : [
         aliases:[
@@ -137,7 +138,7 @@ reportingCfg = [
         keyProperties:['id','rgn1.regionName','name'],
         reportingLabel:'name',
         sortOrder:['rgn1.regionName','name'],
-        joinProperty:'museum.id',
+        // joinProperty:'museum.id',
         // Experimental alternative to joinProperty
         criteria:[
           type:'join',
@@ -146,7 +147,8 @@ reportingCfg = [
             type:'eq',
             col:'id'
           ]
-        ]
+        ],
+        sampleHeadings:['Museum 1', 'Museum 2', 'Museum 3', 'Museum 4']
       ],
       visitYear : [
         axisType:'projection',
@@ -155,12 +157,40 @@ reportingCfg = [
         keyProperties:['year'],
         reportingDomain:'visitYear',
         reportingLabel:'visitYear',
-        joinProperty:'visitYear',
+        // joinProperty:'visitYear',
         criteria:[
           type:'eq',
           col:'visitYear'
-        ]
-      ]
+        ],
+        sampleHeadings:['2006', '2007', '2008', '2009']
+      ],
+      keystage : [
+        axisType:'simple',
+        label:'Keystage',
+        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        domainClass:'com.k_int.spd.domain.Classifier',
+        keyProperties:['id', 'classnIdentifier'],
+        reportingLabel:'Keystage',
+        sortOrder:['classnIdentifier'],
+        filterCriteria:[
+          type:'join',
+          table:'parent',
+          children:[
+            type:'eqliteral',
+            col:'classnIdentifier',
+            lit:'keystage'
+          ]
+        ],
+        criteria:[
+          type:'join',
+          table:'postings',
+          children:[
+            type:'eq',
+            col:'id'
+          ]
+        ],
+        sampleHeadings:['EY', 'KS1', 'KS2', 'KS3']
+      ],
     ]
   ]
 ]
