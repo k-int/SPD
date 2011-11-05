@@ -5,6 +5,7 @@ class Classifier {
   int classificationLevel
   Classifier parent
   String classnIdentifier
+  String label
 
   static hasMany = [postings:Visit]
   static belongsTo = Visit

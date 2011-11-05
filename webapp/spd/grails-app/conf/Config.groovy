@@ -169,9 +169,9 @@ reportingCfg = [
         label:'Keystage',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Classifier',
-        keyProperties:['id', 'classnIdentifier'],
+        keyProperties:['id', 'label'],
         reportingLabel:'Keystage',
-        sortOrder:['classnIdentifier'],
+        sortOrder:['id'],
         filterCriteria:[
           type:'join',
           table:'parent',
@@ -191,6 +191,33 @@ reportingCfg = [
         ],
         sampleHeadings:['EY', 'KS1', 'KS2', 'KS3']
       ],
+      schoolyear : [
+        axisType:'simple',
+        label:'School Year',
+        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        domainClass:'com.k_int.spd.domain.Classifier',
+        keyProperties:['id', 'label'],
+        reportingLabel:'Keystage',
+        sortOrder:['id'],
+        filterCriteria:[
+          type:'join',
+          table:'parent',
+          children:[
+            type:'eqliteral',
+            col:'classnIdentifier',
+            lit:'schoolyear'
+          ]
+        ],
+        criteria:[
+          type:'join',
+          table:'postings',
+          children:[
+            type:'eq',
+            col:'id'
+          ]
+        ],
+        sampleHeadings:['SY1', 'SY2', 'SY3', 'SY4']
+      ]
     ]
   ]
 ]

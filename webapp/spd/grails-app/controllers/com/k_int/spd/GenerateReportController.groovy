@@ -1,6 +1,7 @@
 package com.k_int.spd
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import grails.converters.*
 
 class GenerateReportController {
 
@@ -281,4 +282,14 @@ class GenerateReportController {
   }
   
  
+  def config = {
+    def target_config_name='visit'
+    def reporting_config = grailsApplication.config.reportingCfg
+    def target_config = reporting_config[target_config_name]
+    render target_config as JSON
+  }
+
+  def report2 = {
+    // May try http://www.velocityreviews.com/forums/t118898-how-to-display-progress-bar-for-long-running-page-in-javascript.html for loading bar..
+  }
 }
