@@ -42,6 +42,26 @@ insert into spd_dev.classifier(id,version,classification_level,classn_identifier
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 33,0,1,'Teac-OS','Teacher Overseas',8);
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 34,0,1,'Teac-W/S/NI','Teacher Wales, Scotland or Northern Ireland',8);
 
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 35,0,0,'currarea','Curriculum Area',NULL);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 36,0,1,'N/A','Not Applicable',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 37,0,1,'ArtDes','Art and Design',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 38,0,1,'Cit','Citizenship',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 39,0,1,'DT','Design and Technology',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 40,0,1,'Eng','English',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 41,0,1,'Geo','Geography',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 42,0,1,'Hist','History'35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 43,0,1,'ICT','ICT',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 44,0,1,'math','Maths',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 45,0,1,'MFL','Modern Foreign Languages',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 46,0,1,'Mus','Music',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 47,0,1,'PE','P.E.',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 48,0,1,'PSHE','Personal, Social, Health Education',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 49,0,1,'RE','Religious Education',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 50,0,1,'Sci','Science',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 51,0,1,'EY','Early Years',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 52,0,1,'HEO','HE - Other',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 53,0,1,'FEO','FE - Other',35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 54,0,1,'BS','Basic Skills',35);
 
 insert into spd_dev.region(id, region_name) select ID, Region from spd_orig.region;
 insert into spd_dev.museum(id, name, old_spd_id, region_id) select ID, MuseumName, ID, Region from spd_orig.museums;
@@ -80,7 +100,6 @@ insert into spd_dev.visit_postings(visit_id,classifier_id) select id,22 from spd
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,23 from spd_orig.schoolsvisits where (YearGroup1ID=15 or YearGroup2ID=15 or YearGroup3ID=15 or YearGroup4ID=15 or YearGroup5ID=15 or YearGroup6ID=15 or YearGroup7ID=15 or YearGroup8ID=15 );
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,24 from spd_orig.schoolsvisits where (YearGroup1ID=16 or YearGroup2ID=16 or YearGroup3ID=16 or YearGroup4ID=16 or YearGroup5ID=16 or YearGroup6ID=16 or YearGroup7ID=16 or YearGroup8ID=16 );
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,25 from spd_orig.schoolsvisits where (YearGroup1ID=17 or YearGroup2ID=17 or YearGroup3ID=17 or YearGroup4ID=17 or YearGroup5ID=17 or YearGroup6ID=17 or YearGroup7ID=17 or YearGroup8ID=17 );
-
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,26 from spd_orig.schoolsvisits where (YearGroup1ID=18 or YearGroup2ID=18 or YearGroup3ID=18 or YearGroup4ID=18 or YearGroup5ID=18 or YearGroup6ID=18 or YearGroup7ID=18 or YearGroup8ID=18 );
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,27 from spd_orig.schoolsvisits where (YearGroup1ID=19 or YearGroup2ID=19 or YearGroup3ID=19 or YearGroup4ID=19 or YearGroup5ID=19 or YearGroup6ID=19 or YearGroup7ID=19 or YearGroup8ID=19 );
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,28 from spd_orig.schoolsvisits where (YearGroup1ID=20 or YearGroup2ID=20 or YearGroup3ID=20 or YearGroup4ID=20 or YearGroup5ID=20 or YearGroup6ID=20 or YearGroup7ID=20 or YearGroup8ID=20 );
@@ -91,3 +110,26 @@ insert into spd_dev.visit_postings(visit_id,classifier_id) select id,32 from spd
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,33 from spd_orig.schoolsvisits where (YearGroup1ID=25 or YearGroup2ID=25 or YearGroup3ID=25 or YearGroup4ID=25 or YearGroup5ID=25 or YearGroup6ID=25 or YearGroup7ID=25 or YearGroup8ID=25 );
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,34 from spd_orig.schoolsvisits where (YearGroup1ID=26 or YearGroup2ID=26 or YearGroup3ID=26 or YearGroup4ID=26 or YearGroup5ID=26 or YearGroup6ID=26 or YearGroup7ID=26 or YearGroup8ID=26 );
 
+
+
+
+
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,36 from spd_orig.schoolsvisits where (Curriculum1ID=1 or Curriculum2ID=1 or Curriculum3ID=1 or Curriculum4ID=1 or Curriculum5ID=1 or Curriculum6ID=1 or Curriculum7ID=1 or Curriculum8ID=1 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,37 from spd_orig.schoolsvisits where (Curriculum1ID=2 or Curriculum2ID=2 or Curriculum3ID=2 or Curriculum4ID=2 or Curriculum5ID=2 or Curriculum6ID=2 or Curriculum7ID=2 or Curriculum8ID=2 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,38 from spd_orig.schoolsvisits where (Curriculum1ID=3 or Curriculum2ID=3 or Curriculum3ID=3 or Curriculum4ID=3 or Curriculum5ID=3 or Curriculum6ID=3 or Curriculum7ID=3 or Curriculum8ID=3 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,39 from spd_orig.schoolsvisits where (Curriculum1ID=4 or Curriculum2ID=4 or Curriculum3ID=4 or Curriculum4ID=4 or Curriculum5ID=4 or Curriculum6ID=4 or Curriculum7ID=4 or Curriculum8ID=4 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,40 from spd_orig.schoolsvisits where (Curriculum1ID=5 or Curriculum2ID=5 or Curriculum3ID=5 or Curriculum4ID=5 or Curriculum5ID=5 or Curriculum6ID=5 or Curriculum7ID=5 or Curriculum8ID=5 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,41 from spd_orig.schoolsvisits where (Curriculum1ID=6 or Curriculum2ID=6 or Curriculum3ID=6 or Curriculum4ID=6 or Curriculum5ID=6 or Curriculum6ID=6 or Curriculum7ID=6 or Curriculum8ID=6 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,42 from spd_orig.schoolsvisits where (Curriculum1ID=7 or Curriculum2ID=7 or Curriculum3ID=7 or Curriculum4ID=7 or Curriculum5ID=7 or Curriculum6ID=7 or Curriculum7ID=7 or Curriculum8ID=7 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,43 from spd_orig.schoolsvisits where (Curriculum1ID=8 or Curriculum2ID=8 or Curriculum3ID=8 or Curriculum4ID=8 or Curriculum5ID=8 or Curriculum6ID=8 or Curriculum7ID=8 or Curriculum8ID=8 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,44 from spd_orig.schoolsvisits where (Curriculum1ID=9 or Curriculum2ID=9 or Curriculum3ID=9 or Curriculum4ID=9 or Curriculum5ID=9 or Curriculum6ID=9 or Curriculum7ID=9 or Curriculum8ID=9 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,45 from spd_orig.schoolsvisits where (Curriculum1ID=10 or Curriculum2ID=10 or Curriculum3ID=10 or Curriculum4ID=10 or Curriculum5ID=10 or Curriculum6ID=10 or Curriculum7ID=10 or Curriculum8ID=10 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,46 from spd_orig.schoolsvisits where (Curriculum1ID=11 or Curriculum2ID=11 or Curriculum3ID=11 or Curriculum4ID=11 or Curriculum5ID=11 or Curriculum6ID=11 or Curriculum7ID=11 or Curriculum8ID=11 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,47 from spd_orig.schoolsvisits where (Curriculum1ID=12 or Curriculum2ID=12 or Curriculum3ID=12 or Curriculum4ID=12 or Curriculum5ID=12 or Curriculum6ID=12 or Curriculum7ID=12 or Curriculum8ID=12 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,48 from spd_orig.schoolsvisits where (Curriculum1ID=13 or Curriculum2ID=13 or Curriculum3ID=13 or Curriculum4ID=13 or Curriculum5ID=13 or Curriculum6ID=13 or Curriculum7ID=13 or Curriculum8ID=13 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,49 from spd_orig.schoolsvisits where (Curriculum1ID=14 or Curriculum2ID=14 or Curriculum3ID=14 or Curriculum4ID=14 or Curriculum5ID=14 or Curriculum6ID=14 or Curriculum7ID=14 or Curriculum8ID=14 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,50 from spd_orig.schoolsvisits where (Curriculum1ID=32 or Curriculum2ID=32 or Curriculum3ID=32 or Curriculum4ID=32 or Curriculum5ID=32 or Curriculum6ID=32 or Curriculum7ID=32 or Curriculum8ID=32 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,51 from spd_orig.schoolsvisits where (Curriculum1ID=33 or Curriculum2ID=33 or Curriculum3ID=33 or Curriculum4ID=33 or Curriculum5ID=33 or Curriculum6ID=33 or Curriculum7ID=33 or Curriculum8ID=33 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,52 from spd_orig.schoolsvisits where (Curriculum1ID=34 or Curriculum2ID=34 or Curriculum3ID=34 or Curriculum4ID=34 or Curriculum5ID=34 or Curriculum6ID=34 or Curriculum7ID=34 or Curriculum8ID=34 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,53 from spd_orig.schoolsvisits where (Curriculum1ID=35 or Curriculum2ID=35 or Curriculum3ID=35 or Curriculum4ID=35 or Curriculum5ID=35 or Curriculum6ID=35 or Curriculum7ID=35 or Curriculum8ID=35 );
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,54 from spd_orig.schoolsvisits where (Curriculum1ID=36 or Curriculum2ID=36 or Curriculum3ID=36 or Curriculum4ID=36 or Curriculum5ID=36 or Curriculum6ID=36 or Curriculum7ID=36 or Curriculum8ID=36 );
