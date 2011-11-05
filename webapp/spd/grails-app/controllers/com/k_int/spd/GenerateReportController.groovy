@@ -15,6 +15,7 @@ class GenerateReportController {
     // dynamically generates the needed SQL to produce the reports
     def target_config_name='visit'
     def result = [:]
+    def start_time = System.currentTimeMillis()
     result.result_grid = []
 
     def x_axis_name = params.x_axis_name; // 'schoolRegion'
@@ -188,6 +189,8 @@ class GenerateReportController {
     }
 
     result.result_grid.add(['type':'subtotal','values':groupby_subtotals[0],'label':"Totals"])
+
+    result.elapsed = System.currentTimeMillis() - start_time
 
     withFormat {
       html result
