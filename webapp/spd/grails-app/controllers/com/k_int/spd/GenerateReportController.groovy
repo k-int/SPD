@@ -2,6 +2,7 @@ package com.k_int.spd
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import grails.converters.*
+import org.apache.shiro.SecurityUtils
 
 class GenerateReportController {
 
@@ -284,6 +285,24 @@ class GenerateReportController {
         log.error("Unhandled or missing config type for y axis");
         break;
     }
+
+    if ( axis_config.security != null ) {
+      if ( axis_config.security.required_perm != null ) {
+        def filtered_result = []
+        result.each { key ->
+          // log.debug("Checking security perm ${axis_config.security.required_perm}.${key[0]}}");
+          if (SecurityUtils.subject.isPermitted("${axis_config.security.required_perm}.${key[0]}}")) {
+            // log.debug("Passed");
+            filtered_result.add(key)
+          }
+          else {
+            // log.debug("Failed");
+          }
+        }
+        result = filtered_result;
+      }
+    }
+
     log.debug("Result of determineHeadings ${base_domain_class}, ${axis_config.label} : count-${(result != null ? result.size() : 'result null')}");
     result
   }

@@ -148,7 +148,10 @@ reportingCfg = [
             col:'id'
           ]
         ],
-        sampleHeadings:['Museum 1', 'Museum 2', 'Museum 3', 'Museum 4']
+        sampleHeadings:['Museum 1', 'Museum 2', 'Museum 3', 'Museum 4'],
+        security:[
+          required_perm:'reportby.museum'
+        ]
       ],
       visitYear : [
         axisType:'projection',
