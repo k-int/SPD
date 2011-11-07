@@ -1,8 +1,8 @@
-delete from spd_dev.museum;
-delete from spd_dev.school;
-delete from spd_dev.region;
-delete from spd_dev.visit;
-delete from spd_dev.classifier;
+truncate table spd_dev.museum;
+truncate table spd_dev.school;
+truncate table spd_dev.region;
+truncate table spd_dev.visit;
+truncate table spd_dev.classifier;
 
 
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values (  1,0,0,'keystage','Keystage',NULL);
@@ -49,7 +49,7 @@ insert into spd_dev.classifier(id,version,classification_level,classn_identifier
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 39,0,1,'DT','Design and Technology',35);
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 40,0,1,'Eng','English',35);
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 41,0,1,'Geo','Geography',35);
-insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 42,0,1,'Hist','History'35);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 42,0,1,'Hist','History',35);
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 43,0,1,'ICT','ICT',35);
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 44,0,1,'math','Maths',35);
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 45,0,1,'MFL','Modern Foreign Languages',35);
