@@ -131,7 +131,7 @@ reportingCfg = [
           [ property:'region', alias:'rgn1' ]
         ],
         axisType:'simple',
-        label:'Museum (grouped by region)',
+        label:'My Museums (grouped by region)',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Museum',
         // If you define more than 1 display property (name, rgn1.regionname in this case, the report can subtotal on the outer headings
@@ -148,7 +148,10 @@ reportingCfg = [
             col:'id'
           ]
         ],
-        sampleHeadings:['Museum 1', 'Museum 2', 'Museum 3', 'Museum 4']
+        sampleHeadings:['Museum 1', 'Museum 2', 'Museum 3', 'Museum 4'],
+        security:[
+          required_perm:'reportby.museum'
+        ]
       ],
       visitYear : [
         axisType:'projection',

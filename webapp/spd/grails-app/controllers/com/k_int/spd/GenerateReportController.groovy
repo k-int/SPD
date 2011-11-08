@@ -2,6 +2,7 @@ package com.k_int.spd
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import grails.converters.*
+import org.apache.shiro.SecurityUtils
 
 class GenerateReportController {
 
@@ -21,7 +22,12 @@ class GenerateReportController {
     def x_axis_name = params.x_axis_name; // 'schoolRegion'
     def y_axis_name = params.y_axis_name; // 'museum'	
     def omit_zero_sum_rows = params.omit_zero_sum_rows;
+    def subtotals_top = ( ( params.subtotal_position == 'top' ) ? true : false );
     def groupby_subtotals
+
+    if ( subtotals_top == true ) {
+      result.result_grid.add(['type':'subtotal','label':"Totals"])
+    }
 	
     result.omitted_row_count = 0;
 
@@ -69,6 +75,10 @@ class GenerateReportController {
       // Set up the structures we will use to do subtotals on the Y axis, as each key value changes..
       def last_row_columns = [];
 
+      // header_row_index is used to keep track of the row which contains a header, which is used
+      // if the user requested subtotals at the top of a subgroup instead of the bottom
+      def header_row_index = [];
+
       result.header_row = []
       x_axis_head.each {
         result.header_row.add("${it[1]}")
@@ -98,6 +108,7 @@ class GenerateReportController {
           // If this is the first time through, initialise the last row keys list so we can do sensible comparisons.
           if ( last_row_columns.size() < i ) {
             last_row_columns.add("");
+            header_row_index.add(0);
           }
 
 
@@ -112,11 +123,20 @@ class GenerateReportController {
                 subtotals.add(groupby_subtotals[i][i2]);
                 groupby_subtotals[i][i2] = 0;
               }
-              result.result_grid.add(['type':'subtotal','values':subtotals,'label':"Subtotal for ${last_row_columns[i-1]}"])
+
+              if ( subtotals_top == true ) {
+                result.result_grid[header_row_index[i]].values = subtotals;
+              }
+              else {
+                result.result_grid.add(['type':'subtotal','values':subtotals,'label':"Subtotal for ${last_row_columns[i-1]}"])
+              }
             }
 
-            // If the group by property has changed, emit the totals row
-            result.result_grid.add(['type':'heading','value':y_axis_key[i]])
+            // Emit the heading row for the next group
+            result.result_grid.add(['type':'heading',
+                                    'value':y_axis_key[i]])
+            header_row_index[i] = result.result_grid.size()-1;
+
             // And update the status variable for tracking the next group
             last_row_columns[i-1]=y_axis_key[i]
           }
@@ -188,7 +208,14 @@ class GenerateReportController {
       log.error("Unable to locate configuration with id ${target_config_name}");
     }
 
-    result.result_grid.add(['type':'subtotal','values':groupby_subtotals[0],'label':"Totals"])
+    // If the user wants totals at the top, fill in the grand total row
+    if ( subtotals_top == true ) {
+      result.result_grid[0].values = groupby_subtotals[0]
+    }
+    else {
+      // Otherwise, add the totals to the bottom of the report
+      result.result_grid.add(['type':'subtotal','values':groupby_subtotals[0],'label':"Totals"])
+    }
 
     result.elapsed = System.currentTimeMillis() - start_time
 
@@ -258,6 +285,24 @@ class GenerateReportController {
         log.error("Unhandled or missing config type for y axis");
         break;
     }
+
+    if ( axis_config.security != null ) {
+      if ( axis_config.security.required_perm != null ) {
+        def filtered_result = []
+        result.each { key ->
+          // log.debug("Checking security perm ${axis_config.security.required_perm}.${key[0]}}");
+          if (SecurityUtils.subject.isPermitted("${axis_config.security.required_perm}.${key[0]}}")) {
+            // log.debug("Passed");
+            filtered_result.add(key)
+          }
+          else {
+            // log.debug("Failed");
+          }
+        }
+        result = filtered_result;
+      }
+    }
+
     log.debug("Result of determineHeadings ${base_domain_class}, ${axis_config.label} : count-${(result != null ? result.size() : 'result null')}");
     result
   }

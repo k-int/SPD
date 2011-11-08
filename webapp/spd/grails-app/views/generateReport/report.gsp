@@ -10,6 +10,7 @@
 <hr/>
 </g:if>
 <h1>${title}</h1>
+Report generated in ${elapsed/1000} seconds.
 <g:if test="${params.styled!='true'}">
 <hr/>
 </g:if>
@@ -27,16 +28,18 @@
     </tr>
   </thead>
   <tbody>
-    <!--  <tr>
-      <td rowspan="{result_grid.size()+1}">
-        {y_axis_label}
-      </td>
-    </tr>-->
-
     <g:each in="${result_grid}" var="row">
 
+      <!-- Users can elect to have the subtotals placed in the heading row instead of on a subtotal line -->
       <g:if test="${row.type=='heading'}">
-        <tr><td colspan="${header_row.size() + 1}"><b>${row.value}</b></td></tr>
+        <g:if test="${row.values!=null}">
+          <tr><td><b>${row.value}</b></td>
+              <g:each in="${row.values}" var="value"><td><b>${value}</b></td></g:each>
+          </tr>
+        </g:if>
+        <g:else>
+          <tr><td colspan="${header_row.size() + 1}"><b>${row.value}</b></td></tr>
+        </g:else>
       </g:if>
       <g:elseif test="${row.type=='subtotal'}">
         <tr>
