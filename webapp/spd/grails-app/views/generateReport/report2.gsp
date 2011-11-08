@@ -12,7 +12,22 @@
 
         config = loadConfig();
 
-        // Iterate through the axis options adding options to the combo boxes
+        if ( config != null ) {
+          // Iterate through the axis options adding options to the combo boxes
+          for ( axis in config['visit'].reportingAxis ) {
+            var axis_defn = config['visit'].reportingAxis[axis];
+            var x_axis_combo = $('#x_axis_selection');
+            var y_axis_combo = $('#y_axis_selection');
+            if ( $.inArray('x', axis_defn.allowedAs ) != -1 ) {
+              console.log("Adding "+axis+" to X options");
+              x_axis_combo.append("<option value=\""+axis+"\">"+axis_defn.label+"</option>");
+            }
+            if ( $.inArray('y', axis_defn.allowedAs ) != -1 ) {
+              console.log("Adding "+axis+" to Y options");
+              y_axis_combo.append("<option value=\""+axis+"\">"+axis_defn.label+"</option>");
+            }
+          }
+        }
 
       });
 
@@ -26,7 +41,12 @@
             conf=data;
           }
         });
+        console.log("Result: %o", conf);
         return conf;
+      }
+
+      function comboChange(control, axis) {
+        console.log("comboChange... "+axis);
       }
 
     </g:javascript>
@@ -43,13 +63,13 @@
         </tr>
       
         <tr>
-          <td></td><td colspan="5">X Axis Configuration<br/><select id="x_axis_selection" name="x_axis_name"></select></td></tr>
+          <td></td><td colspan="5">X Axis Configuration<br/><select id="x_axis_selection" name="x_axis_name" onchange="comboChange(this,'x');"></select></td></tr>
         </tr>
 
-        <tr><th></th><th></th><th>col1</th><th>col2</th><th>col3</th><th>col4</th></tr>
+        <tr><td></td><td></td><th>col1</th><th>col2</th><th>col3</th><th>col4</th></tr>
 
         <tr>
-          <td rowspan="4">Y Axis Configuration<br/><select id="y_axis_configuration" name="y_axis_name"></select></td>
+          <td rowspan="4">Y Axis Configuration<br/><select id="y_axis_selection" name="y_axis_name" onchange="comboChange(this,'y');"></select></td>
           <th>row1</th>
           <td>---</td>
           <td>---</td>

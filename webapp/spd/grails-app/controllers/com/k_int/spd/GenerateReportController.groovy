@@ -331,10 +331,8 @@ class GenerateReportController {
   
  
   def config = {
-    def target_config_name='visit'
     def reporting_config = grailsApplication.config.reportingCfg
-    def target_config = reporting_config[target_config_name]
-    render target_config as JSON
+    render reporting_config as JSON
   }
 
   def report2 = {
