@@ -104,6 +104,7 @@ reportingCfg = [
     'reportingAxis': [
       schoolRegion : [
         axisType:'simple',
+        allowedAs:['x','y'],
         label:'Region of the visiting school',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Region',
@@ -131,6 +132,7 @@ reportingCfg = [
           [ property:'region', alias:'rgn1' ]
         ],
         axisType:'simple',
+        allowedAs:['y'],
         label:'My Museums (grouped by region)',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Museum',
@@ -155,6 +157,7 @@ reportingCfg = [
       ],
       visitYear : [
         axisType:'projection',
+        allowedAs:['x','y'],
         label:'Year of visit',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         keyProperties:['year'],
@@ -169,6 +172,7 @@ reportingCfg = [
       ],
       keystage : [
         axisType:'simple',
+        allowedAs:['x','y'],
         label:'Keystage',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Classifier',
@@ -196,6 +200,7 @@ reportingCfg = [
       ],
       schoolyear : [
         axisType:'simple',
+        allowedAs:['x','y'],
         label:'School Year',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Classifier',
@@ -223,6 +228,7 @@ reportingCfg = [
       ],
       curriculumarea : [
         axisType:'simple',
+        allowedAs:['x','y'],
         label:'Curriculum Area',
         resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
         domainClass:'com.k_int.spd.domain.Classifier',
