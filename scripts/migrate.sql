@@ -65,7 +65,7 @@ insert into spd_dev.classifier(id,version,classification_level,classn_identifier
 
 
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 55,0,0,'services','Participation Type',NULL);
-insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 56,0,1,'N/A','',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 56,0,1,'N/A','N/A',55);
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 57,0,1,'sd', 'Self Directed visit to the Institution',55);
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 58,0,1,'fv','Facilitated visit to the Institution',55);
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 59,0,1,'or','Vist to school or organisation (outreach)',55);
