@@ -94,7 +94,7 @@
           <g:select name="format" from="['html','html(styled)','csv']" class="medium"/>
         </li>
         <li>
-          <label for="format">Subtotal Positioning</label>
+          <label for="format">Subtotal Position</label>
           <g:select name="subtotal_position" from="['top','bottom']" class="medium"/>
         </li>
       </ul>
