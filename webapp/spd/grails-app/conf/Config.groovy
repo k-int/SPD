@@ -253,6 +253,34 @@ reportingCfg = [
           ]
         ],
         sampleHeadings:['MFL', 'Maths', 'English', 'Science']
+      ],
+      participationtype : [
+        axisType:'simple',
+        allowedAs:['x','y'],
+        label:'Participation Type',
+        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        domainClass:'com.k_int.spd.domain.Classifier',
+        keyProperties:['id', 'label'],
+        reportingLabel:'Participation Type',
+        sortOrder:['id'],
+        filterCriteria:[
+          type:'join',
+          table:'parent',
+          children:[
+            type:'eqliteral',
+            col:'classnIdentifier',
+            lit:'services'
+          ]
+        ],
+        criteria:[
+          type:'join',
+          table:'postings',
+          children:[
+            type:'eq',
+            col:'id'
+          ]
+        ],
+        sampleHeadings:['Self Directed Visit', 'Facilitated Visit', 'Outreach', 'Accompanied Loan']
       ]
     ]
   ]

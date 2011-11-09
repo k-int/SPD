@@ -63,6 +63,20 @@ insert into spd_dev.classifier(id,version,classification_level,classn_identifier
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 53,0,1,'FEO','FE - Other',35);
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 54,0,1,'BS','Basic Skills',35);
 
+
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 55,0,0,'services','Participation Type',NULL);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 56,0,1,'N/A','',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 57,0,1,'sd', 'Self Directed visit to the Institution',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 58,0,1,'fv','Facilitated visit to the Institution',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 59,0,1,'or','Vist to school or organisation (outreach)',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 60,0,1,'al','Accompanied loan of collection/loan box/pack',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 61,0,1,'ul','Unaccompanied loan of collection/loan box/pack',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 62,0,1,'tc','Teacher Contact',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 63,0,1,'we','Work Experience',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 64,0,1,'lo','Loans Pre2008',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 65,0,1,'fuv','Facilitated/Unfacilitated Visits',55);
+insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 66,0,1,'ooh','Out of hours school support 07/08',55);
+
 insert into spd_dev.region(id, region_name) select ID, Region from spd_orig.region;
 insert into spd_dev.museum(id, name, old_spd_id, region_id) select ID, MuseumName, ID, Region from spd_orig.museums;
 insert into spd_dev.school(id, name, old_spd_id, region_id) select ID, SchoolName, ID, RegionID from spd_orig.edubasemain;
@@ -133,3 +147,16 @@ insert into spd_dev.visit_postings(visit_id,classifier_id) select id,51 from spd
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,52 from spd_orig.schoolsvisits where (Curriculum1ID=34 or Curriculum2ID=34 or Curriculum3ID=34 or Curriculum4ID=34 or Curriculum5ID=34 or Curriculum6ID=34 or Curriculum7ID=34 or Curriculum8ID=34 );
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,53 from spd_orig.schoolsvisits where (Curriculum1ID=35 or Curriculum2ID=35 or Curriculum3ID=35 or Curriculum4ID=35 or Curriculum5ID=35 or Curriculum6ID=35 or Curriculum7ID=35 or Curriculum8ID=35 );
 insert into spd_dev.visit_postings(visit_id,classifier_id) select id,54 from spd_orig.schoolsvisits where (Curriculum1ID=36 or Curriculum2ID=36 or Curriculum3ID=36 or Curriculum4ID=36 or Curriculum5ID=36 or Curriculum6ID=36 or Curriculum7ID=36 or Curriculum8ID=36 );
+
+
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,56 from spd_orig.schoolsvisits where (ServiceProvidedID=1);
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,57 from spd_orig.schoolsvisits where (ServiceProvidedID=2);
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,58 from spd_orig.schoolsvisits where (ServiceProvidedID=3);
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,59 from spd_orig.schoolsvisits where (ServiceProvidedID=4);
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,60 from spd_orig.schoolsvisits where (ServiceProvidedID=5);
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,61 from spd_orig.schoolsvisits where (ServiceProvidedID=6);
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,62 from spd_orig.schoolsvisits where (ServiceProvidedID=16);
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,63 from spd_orig.schoolsvisits where (ServiceProvidedID=17);
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,64 from spd_orig.schoolsvisits where (ServiceProvidedID=18);
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,65 from spd_orig.schoolsvisits where (ServiceProvidedID=20);
+insert into spd_dev.visit_postings(visit_id,classifier_id) select id,66 from spd_orig.schoolsvisits where (ServiceProvidedID=21);
