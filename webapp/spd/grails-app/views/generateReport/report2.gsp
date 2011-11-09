@@ -70,8 +70,23 @@
     <h1>Report Specification</h1>
     <p>Please note that the report will be created in a new browser window/tab and may take several minutes to render.</p>
     <br/>
-    <form target="_new" method="get" >
+    <g:form controller="generateReport" action="report" method="get" target="_new">
       <g:hiddenField name="target_config" value="visit"/>
+      <ul>
+        <li>
+          <label for="omit_zero_sum_rows">Hide empty rows</label>
+          <g:select name="omit_zero_sum_rows" from="[true,false]" class="medium"/>
+        </li>
+        <li>
+          <label for="format">Format</label>
+          <g:select name="format" from="['html','html(styled)','csv']" class="medium"/>
+        </li>
+        <li>
+          <label for="format">Subtotal Positioning</label>
+          <g:select name="subtotal_position" from="['top','bottom']" class="medium"/>
+        </li>
+      </ul>
+
       <table>
         <tr>
           <td colspan="7">Header</td>
@@ -105,6 +120,7 @@
         <tr><th id="yh4">row4</th><td>---</td><td>---</td><td>---</td><td>---</td></tr>
 
       </table>
-    </form>
+      <input type="submit"/>
+    </g:form>
   </body>
 </html>

@@ -1,88 +1,126 @@
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'museum.label', default: 'Museum')}" />
-        <title><g:message code="default.edit.label" args="[entityName]" /></title>
-         <g:javascript>
-        	$(document).ready(function()
-			{	
-				$('.nav-report').addClass('active');
-			});
-        </g:javascript>
-    </head>
-    <body>
-    <h1>Reports</h1>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="layout" content="main" />
+    <g:set var="entityName" value="${message(code: 'museum.label', default: 'Museum')}" />
+    <title><g:message code="default.edit.label" args="[entityName]" /></title>
+    <g:javascript>
+      var config
+
+      $(document).ready(function() {	
+        $('.nav-report').addClass('active');
+
+        config = loadConfig();
+
+        if ( config != null ) {
+          // Iterate through the axis options adding options to the combo boxes
+          for ( axis in config['visit'].reportingAxis ) {
+            var axis_defn = config['visit'].reportingAxis[axis];
+            var x_axis_combo = $('#x_axis_selection');
+            var y_axis_combo = $('#y_axis_selection');
+            if ( $.inArray('x', axis_defn.allowedAs ) != -1 ) {
+              console.log("Adding "+axis+" to X options");
+              x_axis_combo.append("<option value=\""+axis+"\">"+axis_defn.label+"</option>");
+            }
+            if ( $.inArray('y', axis_defn.allowedAs ) != -1 ) {
+              console.log("Adding "+axis+" to Y options");
+              y_axis_combo.append("<option value=\""+axis+"\">"+axis_defn.label+"</option>");
+            }
+          }
+        }
+
+      });
+
+      function loadConfig() {
+        console.log("Loading configuration from ${createLink(controller:'generateReport',action:'config')}");
+        var conf
+        $.ajax({
+          async:false,
+          url: "${createLink(controller:'generateReport',action:'config')}",
+          success: function(data){
+            conf=data;
+          }
+        });
+        console.log("Result: %o", conf);
+        return conf;
+      }
+
+      function comboChange(control, axis) {
+        var v = control.value;
+        console.log("comboChange... "+axis+" value="+v);
+        if ( axis == 'x' ) {
+          $('#x_axis_header').html(config['visit'].reportingAxis[v].label)
+          $('#xh1').html(config['visit'].reportingAxis[v].sampleHeadings[0])
+          $('#xh2').html(config['visit'].reportingAxis[v].sampleHeadings[1])
+          $('#xh3').html(config['visit'].reportingAxis[v].sampleHeadings[2])
+          $('#xh4').html(config['visit'].reportingAxis[v].sampleHeadings[3])
+        }
+        else if ( axis == 'y' ) {
+          $('#y_axis_header').html(config['visit'].reportingAxis[v].label)
+          $('#yh1').html(config['visit'].reportingAxis[v].sampleHeadings[0])
+          $('#yh2').html(config['visit'].reportingAxis[v].sampleHeadings[1])
+          $('#yh3').html(config['visit'].reportingAxis[v].sampleHeadings[2])
+          $('#yh4').html(config['visit'].reportingAxis[v].sampleHeadings[3])
+        }
+      }
+
+    </g:javascript>
+  </head>
+  <body>
+    <h1>Report Specification</h1>
     <p>Please note that the report will be created in a new browser window/tab and may take several minutes to render.</p>
     <br/>
-    <g:form controller="generateReport" action="report" method="get" >
-    <g:hiddenField name="target_config" value="visit"/>
-    <ul>
-	   	<li>
-	   		<label for="x_axis_name">X-Axis (Horizontal)</label>
-	   		<g:select name="x_axis_name" from="${grailsApplication.config.reportingCfg.visit.reportingAxis.entrySet()}" optionKey="key" optionValue="${{it.value.label}}" class="medium" noSelection="['':'']"/>
-	    </li>
-	    <li>          		
-	   		<label for="y_axis_name">Y-Axis (Vertical)</label>
-	   		<g:select name="y_axis_name" from="${grailsApplication.config.reportingCfg.visit.reportingAxis.entrySet()}" optionKey="key" optionValue="${{it.value.label}}" class="medium" noSelection="['':'']"/>
-	   	</li>
-	   	<li>          		
-	   		<label for="omit_zero_sum_rows">Hide empty rows</label>
-	   		<g:select name="omit_zero_sum_rows" from="[true,false]" class="medium"/>
-	   	</li>
-	   	<li>          		
-	   		<label for="format">Format</label>
-	   		<g:select name="format" from="['html','html(styled)','csv']" class="medium"/>
-	   	</li>
-	   	<li>          		
-	   		<label for="format">Subtotal Positioning</label>
-	   		<g:select name="subtotal_position" from="['top','bottom']" class="medium"/>
-	   	</li>
-	   	<li>
-	   	&nbsp;
-	   	</li>
-	   	<li>
-	   		<label for="generateReport"></label>		
-	   		<g:link class="button-link button-link-disabled" target="_blank" controller="generateReport" action="report" params="${['target_config':'visit','x_axis_name':'schoolRegion','y_axis_name':'museum']}">Generate Report</g:link>
-		</li> 
-    </ul>
-    </g:form>
-    <g:javascript>
-	    $(document).ready(function()
-		{	
-			$('input[type=submit]').attr('disabled', 'disabled');
-			
-			$('.button-link').click(function(evt)
-			{
-				if($('select[name="x_axis_name"] option:selected').val().length == 0 
-				|| $('select[name="y_axis_name"] option:selected').val().length == 0
-				|| $('select[name="x_axis_name"] option:selected').val() == $('select[name="y_axis_name"] option:selected').val())
-				{
-					evt.preventDefault();
-				}			
-			});
-			
-			$('select').change(function()
-			{
-				var format = ($('select[name="format"] option:selected').val() == 'csv' ? '.csv' : '');
-			
-				var styled = ($('select[name="format"] option:selected').val() == 'html(styled)' ? '&styled=true' : '');
-			
-				$('.button-link').attr('href', '/spd/generateReport/report' + format + '?target_config=visit&x_axis_name=' + $('select[name="x_axis_name"] option:selected').val() + '&y_axis_name=' + $('select[name="y_axis_name"] option:selected').val()  + '&omit_zero_sum_rows=' + $('select[name="omit_zero_sum_rows"] option:selected').val() + styled);
+    <g:form controller="generateReport" action="report" method="get" target="_new">
+      <g:hiddenField name="target_config" value="visit"/>
+      <ul>
+        <li>
+          <label for="omit_zero_sum_rows">Hide empty rows</label>
+          <g:select name="omit_zero_sum_rows" from="[true,false]" class="medium"/>
+        </li>
+        <li>
+          <label for="format">Format</label>
+          <g:select name="format" from="['html','html(styled)','csv']" class="medium"/>
+        </li>
+        <li>
+          <label for="format">Subtotal Positioning</label>
+          <g:select name="subtotal_position" from="['top','bottom']" class="medium"/>
+        </li>
+      </ul>
 
-				if($('select[name="x_axis_name"] option:selected').val() == $('select[name="y_axis_name"] option:selected').val() 
-				|| $('select[name="x_axis_name"] option:selected').val().length == 0 
-				|| $('select[name="y_axis_name"] option:selected').val().length == 0)
-				{
-					$('.button-link').addClass('button-link-disabled');
-				}
-				else if($('select[name="x_axis_name"] option:selected').val().length > 0 
-				&& $('select[name="y_axis_name"] option:selected').val().length > 0)
-				{
-					$('.button-link').removeClass('button-link-disabled');
-				}
-			});
-		});
-    </g:javascript>
-	</body>
+      <table>
+        <tr>
+          <td colspan="7">Header</td>
+        </tr>
+      
+        <tr>
+          <td></td>
+          <td colspan="6" width="100%">X Axis Configuration<br/><select id="x_axis_selection" name="x_axis_name" onchange="comboChange(this,'x');"></select></td></tr>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <th id="x_axis_header" colspan="4"></th>
+        </tr>
+
+        <tr><td></td><td><td></td></td><th id="xh1">col1</th><th id="xh2">col2</th><th id="xh3">col3</th><th id="xh4">col4</th></tr>
+
+        <tr>
+          <td rowspan="4">Y Axis Configuration<br/><select id="y_axis_selection" name="y_axis_name" onchange="comboChange(this,'y');"></select></td>
+          <th rowspan="4" id="y_axis_header"></th>
+          <th id="yh1">row1</th>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+        </tr>
+
+        <tr><th id="yh2">row2</th><td>---</td><td>---</td><td>---</td><td>---</td></tr>
+        <tr><th id="yh3">row3</th><td>---</td><td>---</td><td>---</td><td>---</td></tr>
+        <tr><th id="yh4">row4</th><td>---</td><td>---</td><td>---</td><td>---</td></tr>
+
+      </table>
+      <input type="submit"/>
+    </g:form>
+  </body>
 </html>
