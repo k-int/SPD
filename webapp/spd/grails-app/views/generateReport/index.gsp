@@ -11,6 +11,8 @@
         $('.nav-report').addClass('active');
 
         config = loadConfig();
+        var firstx = "";
+        var firsty = "";
 
         if ( config != null ) {
           // Iterate through the axis options adding options to the combo boxes
@@ -21,14 +23,20 @@
             if ( $.inArray('x', axis_defn.allowedAs ) != -1 ) {
               console.log("Adding "+axis+" to X options");
               x_axis_combo.append("<option value=\""+axis+"\">"+axis_defn.label+"</option>");
+              if ( firstx == "" )
+                firstx = axis;
             }
             if ( $.inArray('y', axis_defn.allowedAs ) != -1 ) {
               console.log("Adding "+axis+" to Y options");
               y_axis_combo.append("<option value=\""+axis+"\">"+axis_defn.label+"</option>");
+              if ( firsty == "" )
+                firsty = axis;
             }
           }
         }
 
+        setHeadings('x',firstx);
+        setHeadings('y',firsty);
       });
 
       function loadConfig() {
@@ -47,7 +55,11 @@
 
       function comboChange(control, axis) {
         var v = control.value;
-        console.log("comboChange... "+axis+" value="+v);
+        // console.log("comboChange... "+control+" "+axis+" value="+v);
+        setHeadings(axis, v);
+      }
+  
+      function setHeadings(axis, v) {
         if ( axis == 'x' ) {
           $('#x_axis_header').html(config['visit'].reportingAxis[v].label)
           $('#xh1').html(config['visit'].reportingAxis[v].sampleHeadings[0])
@@ -94,7 +106,7 @@
       
         <tr>
           <td></td>
-          <td colspan="6" width="100%">X Axis Configuration<br/><select id="x_axis_selection" name="x_axis_name" onchange="comboChange(this,'x');"></select></td></tr>
+          <td colspan="6" width="100%">X Axis Configuration<br/><select id="x_axis_selection" name="x_axis_name" onchange="comboChange(this,'x');" value=""></select></td></tr>
         </tr>
         <tr>
           <td></td>
@@ -106,7 +118,7 @@
         <tr><td></td><td><td></td></td><th id="xh1">col1</th><th id="xh2">col2</th><th id="xh3">col3</th><th id="xh4">col4</th></tr>
 
         <tr>
-          <td rowspan="4">Y Axis Configuration<br/><select id="y_axis_selection" name="y_axis_name" onchange="comboChange(this,'y');"></select></td>
+          <td rowspan="4">Y Axis Configuration<br/><select id="y_axis_selection" name="y_axis_name" onchange="comboChange(this,'y');"> value=""</select></td>
           <th rowspan="4" id="y_axis_header"></th>
           <th id="yh1">row1</th>
           <td>---</td>

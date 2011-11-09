@@ -102,31 +102,6 @@ reportingCfg = [
       // [ property:'school', alias:'sch1' ]
     ],
     'reportingAxis': [
-      schoolRegion : [
-        axisType:'simple',
-        allowedAs:['x','y'],
-        label:'Region of the visiting school',
-        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
-        domainClass:'com.k_int.spd.domain.Region',
-        keyProperties:['id','regionName'],
-        reportingLabel:'regionName',
-        sortOrder:['regionName'],
-        // joinProperty:'school.region.id',
-        // Experimental alternative to joinProperty
-        criteria:[
-          type:'join',
-          table:'school',
-          children:[
-            type:'join',
-            table:'region',
-            children:[
-              type:'eq',
-              col:'id'
-            ]
-          ]
-        ],
-        sampleHeadings:['Yorkshire and the Humber','region 2','region 3','region 4']
-      ],
       museum : [
         aliases:[
           [ property:'region', alias:'rgn1' ]
@@ -150,10 +125,35 @@ reportingCfg = [
             col:'id'
           ]
         ],
-        sampleHeadings:['Museum 1', 'Museum 2', 'Museum 3', 'Museum 4'],
+        sampleHeadings:['<b>East Midlands</b>', 'Abbey Pumping Station', 'Abbington Park Museum', 'Access Artefacts'],
         security:[
           required_perm:'reportby.museum'
         ]
+      ],
+      schoolRegion : [
+        axisType:'simple',
+        allowedAs:['x','y'],
+        label:'Region of the visiting school',
+        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        domainClass:'com.k_int.spd.domain.Region',
+        keyProperties:['id','regionName'],
+        reportingLabel:'regionName',
+        sortOrder:['regionName'],
+        // joinProperty:'school.region.id',
+        // Experimental alternative to joinProperty
+        criteria:[
+          type:'join',
+          table:'school',
+          children:[
+            type:'join',
+            table:'region',
+            children:[
+              type:'eq',
+              col:'id'
+            ]
+          ]
+        ],
+        sampleHeadings:['East Midlands','East of England','London','North East']
       ],
       visitYear : [
         axisType:'projection',
