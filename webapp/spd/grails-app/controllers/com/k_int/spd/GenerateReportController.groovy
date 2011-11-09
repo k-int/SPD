@@ -200,7 +200,12 @@ class GenerateReportController {
       // log.debug("Emit last subtotal row for ${last_row_columns}");
       for ( int i=0; i<last_row_columns.size(); i++ ) {
         if ( ( last_row_columns[i] != null ) && ( last_row_columns[i].length() > 0 ) ) {
-          result.result_grid.add(['type':'subtotal','values':groupby_subtotals[i+1],'label':"Subtotal for ${last_row_columns[i]}"])
+          if ( subtotals_top == true ) {
+            result.result_grid[header_row_index[i+1]].values = groupby_subtotals[i+1];
+          }
+          else {
+            result.result_grid.add(['type':'subtotal','values':groupby_subtotals[i+1],'label':"Subtotal for ${last_row_columns[i]}"])
+          }
         }
       }
     }
