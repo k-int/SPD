@@ -2,8 +2,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'museum.label', default: 'Museum')}" />
-    <title><g:message code="default.edit.label" args="[entityName]" /></title>
+    <title>SPD Report Specification</title>
     <g:javascript>
       var config
 
