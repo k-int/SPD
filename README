@@ -12,3 +12,11 @@ mysql> create database spd_dev default charset UTF8 default collate utf8_bin;
 mysql> grant all on spd_dev.* to 'k-int'@'localhost';
 mysql> grant all on spd_dev.* to 'k-int'@'localhost.localdomain';
 mysql> grant all on spd_dev.* to 'k-int'@'%';
+
+
+
+For auto linking to CG:
+
+http://www.culturegrid.org.uk/index/select?q=dc.title:%22Natural%20History%20Museum%22%20AND%20record_type:institution%20AND%20unparsed.postcode:%22SW7%205BD%22%20AND%20institution_sector:Museums
+http://www.culturegrid.org.uk/static/showResource/1959654
+http://www.culturegrid.org.uk/index/select?q=dc.title:%22Natural%20History%20Museum%22%20AND%20record_type:institution
