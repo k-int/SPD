@@ -132,6 +132,31 @@ reportingCfg = [
           required_perm:'reportby.museum'
         ]
       ],
+      school : [
+        aliases:[
+          [ property:'region', alias:'rgn1' ]
+        ],
+        axisType:'simple',
+        allowedAs:['y'],
+        label:'Schools (grouped by region)',
+        resultType:'scalar',  // Scalar means the SQL driving this index generates unique key values (Eg RegionId) and not range queries (Eg dates)
+        domainClass:'com.k_int.spd.domain.School',
+        // If you define more than 1 display property (name, rgn1.regionname in this case, the report can subtotal on the outer headings
+        keyProperties:['id','rgn1.regionName','name'],
+        reportingLabel:'name',
+        sortOrder:['rgn1.regionName','name'],
+        // joinProperty:'museum.id',
+        // Experimental alternative to joinProperty
+        criteria:[
+          type:'join',
+          table:'school',
+          children:[
+            type:'eq',
+            col:'id'
+          ]
+        ],
+        sampleHeadings:['<b>East Midlands</b>', 'School1', 'School2', 'School3'],
+      ],
       schoolRegion : [
         axisType:'simple',
         allowedAs:['x','y'],
@@ -287,3 +312,6 @@ reportingCfg = [
     ]
   ]
 ]
+
+// Need to add All schools in Region
+// Need to add All museums in Region
