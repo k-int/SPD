@@ -7,6 +7,10 @@ class Museum {
   String name
   Long oldSpdId
   Region region;
+
+  // For linking to other databases
+  String CultureGridInternalId
+  String InstitutionId
   
   static hasMany = [affiliates:Affiliation]
 

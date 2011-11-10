@@ -5,6 +5,7 @@ class School {
   String name
   Long oldSpdId
   Region region;
+  String edubaseUrn
 
   static constraints = {
     oldSpdId(nullable:true)
