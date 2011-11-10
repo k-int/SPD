@@ -7,6 +7,7 @@ class Museum {
   String name
   Long oldSpdId
   Region region;
+  String postcode
 
   // For linking to other databases
   String CultureGridInternalId

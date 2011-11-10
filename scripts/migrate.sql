@@ -78,8 +78,11 @@ insert into spd_dev.classifier(id,version,classification_level,classn_identifier
 insert into spd_dev.classifier(id,version,classification_level,classn_identifier,label,parent_id) values ( 66,0,1,'ooh','Out of hours school support 07/08',55);
 
 insert into spd_dev.region(id, region_name) select ID, Region from spd_orig.region;
-insert into spd_dev.museum(id, name, old_spd_id, region_id) select ID, MuseumName, ID, Region from spd_orig.museums;
+
+insert into spd_dev.museum(id, name, old_spd_id, region_id, postcode) select ID, MuseumName, ID, Region, PostCode from spd_orig.museums;
+
 insert into spd_dev.school(id, name, old_spd_id, region_id, edubase_urn) select ID, SchoolName, ID, RegionID, URN from spd_orig.edubasemain;
+
 insert into spd_dev.visit(id, museum_id, school_id, party_size,visit_date) 
 select ID, 
        MuseumID, 
