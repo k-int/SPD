@@ -5,8 +5,8 @@
     <title>Linked Data Resolver</title>
   </head>
   <body>
-    SPD Linked Data Resolver...
-    <g:link controller="LDResolution" action="resolveMuseums" class="nav-home">Resolve Museums</g:link>
-    <g:link controller="LDResolution" action="resolveSchools" class="nav-home">Resolve Schools</g:link>
+    <h1>SPD Linked Data Resolver</h1>
+    <g:link controller="LDResolution" action="resolveMuseums" class="button-link">Resolve Museums</g:link>
+    <g:link controller="LDResolution" action="resolveSchools" class="button-link">Resolve Schools</g:link>
   </body>
 </html>

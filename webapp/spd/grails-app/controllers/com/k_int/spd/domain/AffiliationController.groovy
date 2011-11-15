@@ -59,6 +59,7 @@ class AffiliationController {
     if(affiliationInstance)
     {
       affiliationInstance.status = StatusEnum.REJECTED;
+	  affiliationInstance.user.removeFromPermissions("reportby.museum.${affiliationInstance.museum.id}")
       affiliationInstance.save(flush: true)
     }
     else

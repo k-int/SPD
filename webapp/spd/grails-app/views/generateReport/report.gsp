@@ -59,24 +59,5 @@
       <li>${omitted_row_count} rows were omitted from this report because they had no data, and the report omit_zero_sum_rows parameter is set to ${params.omit_zero_sum_rows}</li>
     </g:if>
   </ul>
-  <g:javascript>
-  $(function() {
-      var table = $("#Grid");
-  
-      $(window).scroll(function() {
-          var windowTop = $(window).scrollTop();
-  
-  	//alert("window top: " + windowTop + " table.top : " + $("#Grid").offset().top);
-          if (windowTop > table.offset().top) {
-              $("thead", table).addClass("Fixed").css("top", windowTop);
-          }
-          else {
-              $("thead", table).removeClass("Fixed");
-          }
-      });
-   
-  });
-  
-  </g:javascript>
   </body>
 </html>

@@ -33,7 +33,7 @@
     				</n:isAdministrator>
     				<li><g:link controller="generateReport" action="index" class="nav-report">Reports</g:link></li>
     				<n:isAdministrator>
-    				<li><g:link url="/spd/administration/users/list">Admin</g:link></li>
+    				<li><g:link url="/spd/administration/users/list" class="nav-admin">Admin</g:link></li>
     				</n:isAdministrator>
     				<li><g:link controller="auth" action="logout" class="secondary">Logout</g:link></li>
     				</n:isLoggedIn>
@@ -52,7 +52,7 @@
     			<img src="/spd/images/col_trust_small.png" />
     			<span>Schools Participation Database &copy; 2011 Collections Trust</span>
     			<ul>
-    				<li><g:link >Support</g:link></li>
+    				<li><g:link controller="support" action="index">Support</g:link></li>
     			</ul>
     		</div>
     	</div>

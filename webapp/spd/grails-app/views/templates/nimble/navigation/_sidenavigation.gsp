@@ -113,5 +113,8 @@
 		<li>
 			<g:link controller="affiliation" action="list">Affiliations</g:link>
 		</li>
+		<li>
+			<g:link controller="LDResolution" action="index">Resolve Linked Data</g:link>
+		</li>
 	</ul>
 </div>

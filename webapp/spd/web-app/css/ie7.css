@@ -17,3 +17,9 @@
 {
 	border-bottom: 5px solid transparent;
 }
+
+#Grid tbody
+{
+	height:auto !important;
+	overflow: auto;
+}

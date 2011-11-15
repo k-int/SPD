@@ -1,4 +1,5 @@
 <%@ page import="com.k_int.spd.domain.Visit" %>
+<%@ page import="com.k_int.spd.domain.Classifier" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -41,6 +42,17 @@
 				<label for="partySize"><g:message code="visit.partySize.label" default="Party Size" /></label>
 				<g:textField name="partySize" value="${visitInstance?.partySize}" />
 			</li>
+			<g:each in="${topClassifiers}">
+     		<li>
+     			<label for="postings" style="vertical-align:top; margin-top:2px"><g:message code="visit.postings.label" default="${it.label}" /></label>
+     			
+     			<g:select 	id="postings" name='postings' value="${person?.type?.id}"
+   							from='${Classifier.findAllByParent(it)}'
+   							optionKey="id" optionValue="label" multiple="true" size="4" title="Select multiple values if required" class="large"></g:select>
+     			
+     		
+     		</li>
+			</g:each>
 			<li>
 				<label for="create"></label>
 				<g:submitButton name="create" class="save" value="Add" />
@@ -51,7 +63,7 @@
 		<g:javascript>
 		$(document).ready(function() 
 		{
-			$('input[title]').qtip(
+			$('input[title], select').qtip(
 			{
 				position: 
 				{

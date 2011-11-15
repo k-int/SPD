@@ -75,6 +75,9 @@ class Affiliation
 		{ 
 			user?.removeFromAffiliations(link) 
 			museum?.removeFromAffiliates(link)
+			
+			link.user.removeFromPermissions("reportby.museum.${link.museum.id}")
+			
 			link.delete() 
 		} 
 	} 
@@ -87,6 +90,9 @@ class Affiliation
 		{
 			link.user?.removeFromAffiliations(link)
 			link.museum?.removeFromAffiliates(link)
+			
+			link.user.removeFromPermissions("reportby.museum.${link.museum.id}")
+			
 			link.delete()
 		}
 	}

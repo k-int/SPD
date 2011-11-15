@@ -59,13 +59,6 @@ class BootStrap {
   
   println "Region Count : " + Region.count()
   
-  if(!Region.count())
-  {
-    println "Region Count null so creating a region"
-    
-    def temp_region = new Region(regionName:"North West")
-    temp_region.save();
-  }
   }
 
   def destroy = {

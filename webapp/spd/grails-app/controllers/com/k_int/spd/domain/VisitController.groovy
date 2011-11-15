@@ -60,17 +60,17 @@ class VisitController {
 	def create = 
 	{
 		def visitInstance = new Visit()
-		visitInstance.properties = params
-		return [visitInstance: visitInstance]
+		visitInstance.properties = params		
+		def classifiers = Classifier.findAllByClassificationLevel(0);
+		return [visitInstance: visitInstance,topClassifiers: classifiers]
 	}
 
 	def save = {
+			
 		params.museum = Museum.findByName(params.museum.name)
 		params.school = School.findByName(params.school.name)
 		params.visitYear = params.visitDate.toCalendar().get(Calendar.YEAR);
-		
-		println(params.visitYear);
-		
+			
 		def visitInstance = new Visit(params)
 		if (visitInstance.save(flush: true)) {
 			flash.message = "${message(code: 'default.created.message', args: [message(code: 'visit.label', default: 'Visit'), visitInstance.id])}"

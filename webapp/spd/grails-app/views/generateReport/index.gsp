@@ -97,24 +97,24 @@
           <g:select name="subtotal_position" from="['top','bottom']" class="medium"/>
         </li>
       </ul>
-
+      <br/>
       <table>
         <tr>
           <td colspan="7">Header</td>
         </tr>
       
         <tr>
-          <td rowspan="3" colspan="3"></td>
+          <td colspan="2"></td>
           <td colspan="6" width="100%">X Axis Configuration<br/><select id="x_axis_selection" name="x_axis_name" onchange="comboChange(this,'x');" value=""></select></td></tr>
         </tr>
         <tr>
+          <td rowspan="2" colspan="2">Y Axis Configuration<br/><select id="y_axis_selection" name="y_axis_name" onchange="comboChange(this,'y');"> value=""</select></td>
           <th id="x_axis_header" colspan="4"></th>
         </tr>
 
         <tr></td><th id="xh1">col1</th><th id="xh2">col2</th><th id="xh3">col3</th><th id="xh4">col4</th></tr>
 
         <tr>
-          <td rowspan="4">Y Axis Configuration<br/><select id="y_axis_selection" name="y_axis_name" onchange="comboChange(this,'y');"> value=""</select></td>
           <th rowspan="4" id="y_axis_header"></th>
           <th id="yh1">row1</th>
           <td>---</td>
@@ -128,7 +128,8 @@
         <tr><th id="yh4">row4</th><td>---</td><td>---</td><td>---</td><td>---</td></tr>
 
       </table>
-      <input type="submit"/>
+      <br/>
+      <input type="submit" class="button-link"/>
     </g:form>
   </body>
 </html>
