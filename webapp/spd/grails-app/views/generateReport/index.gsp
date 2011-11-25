@@ -20,13 +20,13 @@
             var x_axis_combo = $('#x_axis_selection');
             var y_axis_combo = $('#y_axis_selection');
             if ( $.inArray('x', axis_defn.allowedAs ) != -1 ) {
-              console.log("Adding "+axis+" to X options");
+              //console.log("Adding "+axis+" to X options");
               x_axis_combo.append("<option value=\""+axis+"\">"+axis_defn.label+"</option>");
               if ( firstx == "" )
                 firstx = axis;
             }
             if ( $.inArray('y', axis_defn.allowedAs ) != -1 ) {
-              console.log("Adding "+axis+" to Y options");
+              //console.log("Adding "+axis+" to Y options");
               y_axis_combo.append("<option value=\""+axis+"\">"+axis_defn.label+"</option>");
               if ( firsty == "" )
                 firsty = axis;
@@ -39,7 +39,7 @@
       });
 
       function loadConfig() {
-        console.log("Loading configuration from ${createLink(controller:'generateReport',action:'config')}");
+        //console.log("Loading configuration from ${createLink(controller:'generateReport',action:'config')}");
         var conf
         $.ajax({
           async:false,
@@ -48,7 +48,7 @@
             conf=data;
           }
         });
-        console.log("Result: %o", conf);
+        //console.log("Result: %o", conf);
         return conf;
       }
 

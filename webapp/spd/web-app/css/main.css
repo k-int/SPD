@@ -579,3 +579,17 @@ a.edit:hover
 	overflow: auto;
 }
 
+.support
+{
+	min-height: 64px;
+	background: transparent url(../images/email.png) top left no-repeat;
+	list-style: none;
+}
+
+.support li
+{
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px 74px;
+}
+

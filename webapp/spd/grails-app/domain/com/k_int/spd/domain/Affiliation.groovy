@@ -1,6 +1,7 @@
 package com.k_int.spd.domain
 
 import grails.plugins.nimble.core.Role
+import grails.plugins.nimble.core.Permission
 import grails.plugins.nimble.core.AdminsService
 import grails.plugins.nimble.core.UserService
 import org.apache.shiro.SecurityUtils
@@ -24,11 +25,15 @@ class Affiliation
 			//response.sendError(403)
 			return
 		}
+		if(!museum)
+		{
+			println "Not able to determine museum"
+			//response.sendError(403)
+			return
+		}
 		else if (!link) 
 		{
-			 link = new Affiliation()
-			 user?.addToAffiliations(link)
-			 museum?.addToAffiliates(link)
+			link = new Affiliation(user:user,museum:museum)
 			 
 			 authenticatedUser.roles.each
 			 {
@@ -40,10 +45,23 @@ class Affiliation
 				 {
 					 println "logged in user is an admin so setting status to accepted immediately"
 					 link.status = StatusEnum.ACCEPTED
+					 
+					 def permission = Permission.findByTargetAndUser("reportby.museum." + museum.id, user)
+					 
+					 if(!permission)
+					 {
+						 permission = new Permission(target: "reportby.museum." + museum.id, type: Permission.defaultPerm)
+						 user.addToPermissions(permission)
+					 }
 				 }
 			 }  
 			 
-			 link.save()
+			 if(!link.save())
+			 {
+				 link.errors.each { error ->
+					 println error
+				 }
+			 }
 		} 
 		else if(link?.status == StatusEnum.REJECTED)
 		{
@@ -58,10 +76,23 @@ class Affiliation
 				if(role.name == AdminsService.ADMIN_ROLE)
 				{
 					link.status = StatusEnum.ACCEPTED
+					
+					def permission = Permission.findByTargetAndUser("reportby.museum." + museum.id, user)
+					
+					if(!permission)
+					{
+						permission = new Permission(target: "reportby.museum." + museum.id, type: Permission.defaultPerm)
+						user.addToPermissions(permission)
+					}
 				}
 			}
 				
-			link.save()
+			if(!link.save())
+			{
+				link.errors.each { error ->
+					println error
+				}
+			}
 		}
 		
 		return link
@@ -72,12 +103,15 @@ class Affiliation
 		def link = Affiliation.findByUserAndMuseum(user, museum) 
 		
 		if (link) 
-		{ 
-			user?.removeFromAffiliations(link) 
-			museum?.removeFromAffiliates(link)
+		{ 			
+			def permission = Permission.findByTargetAndUser("reportby.museum.${link.museum.id}", user)
 			
-			link.user.removeFromPermissions("reportby.museum.${link.museum.id}")
-			
+			if(permission)
+			{
+				link.user.removeFromPermissions(permission)
+				permission.delete();
+			}
+						
 			link.delete() 
 		} 
 	} 
@@ -88,11 +122,14 @@ class Affiliation
 		
 		if (link)
 		{
-			link.user?.removeFromAffiliations(link)
-			link.museum?.removeFromAffiliates(link)
+			def permission = Permission.findByTargetAndUser("reportby.museum.${link.museum.id}", link.user)
 			
-			link.user.removeFromPermissions("reportby.museum.${link.museum.id}")
-			
+			if(permission)
+			{
+				link.user.removeFromPermissions(permission)
+				permission.delete();
+			}
+						
 			link.delete()
 		}
 	}

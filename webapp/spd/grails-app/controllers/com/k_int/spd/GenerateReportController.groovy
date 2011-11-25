@@ -293,16 +293,27 @@ class GenerateReportController {
 
     if ( axis_config.security != null ) {
       if ( axis_config.security.required_perm != null ) {
+		  
+		//def authenticatedUser = User.get(SecurityUtils.getSubject()?.getPrincipal());
+		  
         def filtered_result = []
         result.each { key ->
-          // log.debug("Checking security perm ${axis_config.security.required_perm}.${key[0]}}");
-          if (SecurityUtils.subject.isPermitted("${axis_config.security.required_perm}.${key[0]}}")) {
-            // log.debug("Passed");
-            filtered_result.add(key)
-          }
-          else {
-            // log.debug("Failed");
-          }
+
+          //log.debug("Checking security perm ${axis_config.security.required_perm}.${key[0]}}");
+
+			if (SecurityUtils.subject.isPermitted("${axis_config.security.required_perm}.${key[0]}"))
+			{
+				//log.debug("Passed");
+				filtered_result.add(key)
+			}
+			else 
+			{
+				if(key[0] == 31)
+				{
+					log.debug("Failed");
+				}
+            	// log.debug("Failed");
+        	}	
         }
         result = filtered_result;
       }

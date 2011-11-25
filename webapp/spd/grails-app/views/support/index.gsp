@@ -11,9 +11,11 @@
     </head>
     <body>
     	<h1>Support</h1>
-    	<ul>
-    		<li>Phone</li>
-    		<li>Email</li>
+    	<p>For queries about this application please use the contact details below.</p>
+    	<br/>
+    	<ul class="support">
+    		<li>Simon Sheffield</li>
+    		<li>spd@collectionstrust.org.uk</li>
     	</ul>
     </body>
 </html>

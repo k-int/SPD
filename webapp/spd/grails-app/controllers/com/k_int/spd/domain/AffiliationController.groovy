@@ -4,6 +4,7 @@ import com.k_int.spd.utils.StatusEnum
 import grails.plugins.nimble.core.AdminsService
 import grails.converters.*
 import org.apache.shiro.SecurityUtils
+import grails.plugins.nimble.core.Permission
 
 class AffiliationController {
 
@@ -23,6 +24,7 @@ class AffiliationController {
   {
     def userInstance = User.findById(params.user.id)
     def museumInstance = Museum.findByName(params.museum.name)
+	
     def affiliationInstance = Affiliation.link(userInstance, museumInstance)
     
     if (affiliationInstance) 
@@ -42,8 +44,21 @@ class AffiliationController {
     if(affiliationInstance) {
       affiliationInstance.status = StatusEnum.ACCEPTED;
       // Add an explicit system permission for this user to report on the identified museum
-      affiliationInstance.user.addToPermissions("reportby.museum.${affiliationInstance.museum.id}")
-      affiliationInstance.save(flush: true)
+	  
+	  def permission = Permission.findByTargetAndUser("reportby.museum." + affiliationInstance.museum.id, affiliationInstance.user)
+	  
+	  if(!permission)
+	  {
+		  permission = new Permission(target: "reportby.museum." + affiliationInstance.museum.id, type: Permission.defaultPerm)		  
+		  affiliationInstance.user.addToPermissions(permission)
+	  }
+   	  
+	  if(!affiliationInstance.save(flush: true)) 
+	  {
+		  affiliationInstance.errors.each { error ->
+			  println error
+		  }
+	  }
     }
     else
     {
@@ -59,8 +74,21 @@ class AffiliationController {
     if(affiliationInstance)
     {
       affiliationInstance.status = StatusEnum.REJECTED;
-	  affiliationInstance.user.removeFromPermissions("reportby.museum.${affiliationInstance.museum.id}")
-      affiliationInstance.save(flush: true)
+	  
+	  def permission = Permission.findByTargetAndUser("reportby.museum." + affiliationInstance.museum.id, affiliationInstance.user)
+	  
+	  if(permission)
+	  {
+		  affiliationInstance.user.removeFromPermissions(permission) 
+		  permission.delete();
+	  }
+	  
+      if(!affiliationInstance.save(flush: true)) 
+	  {
+		  affiliationInstance.errors.each { error ->
+			  println error
+		  }
+	  }
     }
     else
     {

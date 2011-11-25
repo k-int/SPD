@@ -24,7 +24,7 @@
         </g:hasErrors>
         <g:form action="save" >
         <n:lacksRole name="SYSTEM ADMINISTRATOR">
-        	 <g:hiddenField name="user.id" value="${userInstance.id}" />
+        	 <g:hiddenField name="user.id" value="${userInstance?.id}" />
         </n:lacksRole>
 		<ul>
 			<n:isAdministrator>	
