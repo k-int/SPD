@@ -32,7 +32,6 @@
 			<li class="value ${hasErrors(bean: visitInstance, field: 'museum', 'errors')}">
 				<label for="museum.id"><g:message code="visit.museum.label" default="Museum" /></label>
 				<input type="text" name="museum.name" id="museum_autocomplete" class="large" title="Autocomplete field, type two or more characters... max of 20 results are returned at a time so keep typing to refine the list."/>
-				<!--<img src="/spd/images/information-balloon.png" class="info" title="helloooooooo"/>-->
 			</li>
 			<li class="value ${hasErrors(bean: visitInstance, field: 'school', 'errors')}">
 				<label for="school.id"><g:message code="visit.school.label" default="School" /></label>
@@ -80,7 +79,7 @@
 			{
 				source: function( request, response ) 
 				{
-					$.getJSON("/spd/school/autocomplete", request, function(data) 
+					$.getJSON(CONTEXT_PATH + "/school/autocomplete", request, function(data) 
 					{
 						response(data);
 					});
@@ -97,7 +96,7 @@
 			{
 				source: function( request, response ) 
 				{
-					$.getJSON("/spd/museum/autocomplete", request, function(data) 
+					$.getJSON(CONTEXT_PATH + "/museum/autocomplete", request, function(data) 
 					{
 						response(data);
 					});
@@ -115,7 +114,7 @@
 			{
 				source: function( request, response ) 
 				{
-					$.getJSON("/spd/affiliation/autocomplete", request, function(data) 
+					$.getJSON(CONTEXT_PATH + "/affiliation/autocomplete", request, function(data) 
 					{
 						response(data);
 					});

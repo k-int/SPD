@@ -63,7 +63,7 @@
 			{
 				source: function( request, response ) 
 				{
-					$.getJSON("/spd/museum/autocomplete", request, function(data) 
+					$.getJSON(CONTEXT_PATH + "/museum/autocomplete", request, function(data) 
 					{
 						response(data);
 					});

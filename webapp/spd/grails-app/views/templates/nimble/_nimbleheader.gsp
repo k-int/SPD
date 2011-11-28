@@ -10,10 +10,13 @@
 	</g:if>
 </div>-->
 <g:javascript>
+var CONTEXT_PATH = '<%= request.getContextPath()%>';
+
 $(document).ready(function () 
 {
-	$('head').append('<link rel="stylesheet" href="/spd/css/layout.css" type="text/css" />');
-	$('head').append('<!--[if lt IE 10]><link rel="stylesheet" href="/spd/css/ie7.css" /><![endif]-->');
+	$('head').append('<link rel="stylesheet" href="' + CONTEXT_PATH + '/css/layout.css" type="text/css" />');
+	$('head').append('<!--[if lt IE 10]><link rel="stylesheet" href="' + CONTEXT_PATH + '/css/ie7.css" /><![endif]-->');
+	
 });
 </g:javascript>
 <div id="nav-outer">
@@ -30,7 +33,7 @@ $(document).ready(function ()
 			</n:isAdministrator>
 			<li><g:link controller="generateReport" action="index" class="nav-report">Reports</g:link></li>
 			<n:isAdministrator>
-			<li><g:link url="/spd/administration/users/list">Admin</g:link></li>
+			<li><g:link controller="user" action="list" class="nav-admin">Admin</g:link></li>
 			</n:isAdministrator>
 			<li><g:link controller="auth" action="logout" class="secondary">Logout</g:link></li>
 			</n:isLoggedIn>

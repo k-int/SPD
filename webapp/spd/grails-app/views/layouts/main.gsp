@@ -17,6 +17,9 @@
 		<link rel="stylesheet" href="${resource(dir:'css',file:'ie7.css')}" />
 		<![endif]-->
         <g:layoutHead />
+        <g:javascript>
+			var CONTEXT_PATH = '<%= request.getContextPath()%>';
+        </g:javascript>
     </head>
     <body>
     	<div id="nav-outer">
@@ -33,7 +36,7 @@
     				</n:isAdministrator>
     				<li><g:link controller="generateReport" action="index" class="nav-report">Reports</g:link></li>
     				<n:isAdministrator>
-    				<li><g:link url="/spd/administration/users/list" class="nav-admin">Admin</g:link></li>
+    				<li><g:link controller="user" action="list" class="nav-admin">Admin</g:link></li>
     				</n:isAdministrator>
     				<li><g:link controller="auth" action="logout" class="secondary">Logout</g:link></li>
     				</n:isLoggedIn>
@@ -49,7 +52,7 @@
         </div>
         <div id="footer-outer">
     		<div id="footer-inner">
-    			<img src="/spd/images/col_trust_small.png" />
+    			<img src="images/col_trust_small.png" />
     			<span>Schools Participation Database &copy; 2011 Collections Trust</span>
     			<ul>
     				<li><g:link controller="support" action="index">Support</g:link></li>
