@@ -10,16 +10,16 @@ class Museum {
   String postcode
 
   // For linking to other databases
-  String CultureGridInternalId
-  String InstitutionId
+  String cultureGridInternalId
+  String institutionId
   
   static hasMany = [affiliates:Affiliation]
 
   static constraints = {
+    cultureGridInternalId(nullable:true)
+    institutionId(nullable:true)
     oldSpdId(nullable:true)
     region(nullable:true)
-    CultureGridInternalId(nullable:true)
-    InstitutionId(nullable:true)
   }
 
   List allAffiliates()

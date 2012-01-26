@@ -32,6 +32,10 @@
             		<label for="oldSpdId"><g:message code="museum.oldSpdId.label" default="Legacy Id" /></label>
             		<g:textField name="oldSpdId" value="${fieldValue(bean: museumInstance, field: 'oldSpdId')}" class="large" />
             	</li>
+            	<li class="value ${hasErrors(bean: museumInstance, field: 'institutionId', 'errors')}">
+                    <label for="institutionId"><g:message code="museum.institutionId.label" default="Institution Id" /></label>
+                    <g:textField name="institutionId" value="${fieldValue(bean: museumInstance, field: 'institutionId')}" class="large" />
+                </li>
             	<li class="value ${hasErrors(bean: museumInstance, field: 'region', 'errors')}">
             		<label for="region"><g:message code="museum.region.label" default="Region" /></label>
             		<g:select name="region.id" from="${com.k_int.spd.domain.Region.list()}" optionKey="id" optionValue="regionName" value="${museumInstance?.region?.id}" noSelection="['null': '']" class="large"/>
