@@ -26,7 +26,7 @@
                             <g:sortableColumn property="id" title="${message(code: 'museum.id.label', default: 'Id')}" />
                         
                             <g:sortableColumn property="oldSpdId" title="${message(code: 'museum.oldSpdId.label', default: 'Legacy Id')}" />
-                        
+                            
                             <th><g:message code="museum.region.label" default="Region" /></th>
                         
                             <g:sortableColumn property="name" title="${message(code: 'museum.name.label', default: 'Name')}" />
@@ -43,7 +43,7 @@
                         
                             <td>${fieldValue(bean: museumInstance, field: "region.regionName")}</td>
                         
-                            <td>${fieldValue(bean: museumInstance, field: "name")}</td>
+                            <td>${fieldValue(bean: museumInstance, field: "name")}</td>        
                         
                         </tr>
                     </g:each>

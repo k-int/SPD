@@ -52,7 +52,6 @@
         </div>
         <div id="footer-outer">
     		<div id="footer-inner">
-    			<img src="images/col_trust_small.png" />
     			<span>Schools Participation Database &copy; 2011 Collections Trust</span>
     			<ul>
     				<li><g:link controller="support" action="index">Support</g:link></li>

@@ -24,6 +24,7 @@ class MuseumController {
 				if(params.name) 	{ ilike("name", "%" + params.name + "%") }
 				if(params.oldSpdId)	{ eq("oldSpdId", params.long('oldSpdId')) }
 				if(params.region)	{ eq("region.id", params.long('region')) }
+                if(params.postcode) { ilike("postcode", "%" + params.postcode + "%") }
 				if(params.sort && params.order) { order(params.sort, params.order)}
 			}
 		}

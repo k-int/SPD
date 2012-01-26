@@ -40,6 +40,10 @@
             		<label for="name"><g:message code="museum.name.label" default="Name" /></label>
             		<g:textField name="name" value="${museumInstance?.name}" class="large" />
             	</li>
+            	<li class="value ${hasErrors(bean: museumInstance, field: 'postcode', 'errors')}">
+                    <label for="postcode"><g:message code="museum.postcode.label" default="Postcode" /></label>
+                    <g:textField name="postcode" value="${museumInstance?.postcode}" class="large" />
+                </li>
             	<li>
             		<label for=""></label>
             		<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />

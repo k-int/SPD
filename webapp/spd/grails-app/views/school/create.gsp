@@ -38,6 +38,11 @@
             			<label for="name"><g:message code="school.name.label" default="Name" /></label>
             			<g:textField name="name" value="${schoolInstance?.name}" class="large" />
             		</li>
+            		<li>Please Note: its vital that any edubaseURN values entered MUST be correct. If unknown this field is best left blank.</li>
+            		<li class="value ${hasErrors(bean: schoolInstance, field: 'edubaseUrn', 'errors')}">
+                        <label for="edubaseUrn"><g:message code="school.edubaseUrn.label" default="Edubase URN" /></label>
+                        <g:textField name="edubaseUrn" value="${schoolInstance?.edubaseUrn}" class="large" />
+                    </li>
             		<li>
             			<label for="create"></label>
             			<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />

@@ -25,6 +25,14 @@
                     <td valign="top" class="value">${fieldValue(bean: museumInstance, field: "id")}</td>                       
                 </tr>
                 <tr>
+                    <td valign="top" class="name"><g:message code="museum.InstitutionId.label" default="Institution Id" /></td>
+                    <td valign="top" class="value">${fieldValue(bean: museumInstance, field: "InstitutionId")}</td>   
+                </tr>     
+                <tr>
+                    <td valign="top" class="name"><g:message code="museum.CultureGridInternalId.label" default="CG Internal Id" /></td>
+                    <td valign="top" class="value">${fieldValue(bean: museumInstance, field: "CultureGridInternalId")}</td>   
+                </tr>     
+                <tr>
                     <td valign="top" class="name"><g:message code="museum.oldSpdId.label" default="Legacy Id" /></td> 
                     <td valign="top" class="value">${fieldValue(bean: museumInstance, field: "oldSpdId")}</td>     
                 </tr>
@@ -35,6 +43,10 @@
                 <tr>
                     <td valign="top" class="name"><g:message code="museum.name.label" default="Name" /></td>
                     <td valign="top" class="value">${fieldValue(bean: museumInstance, field: "name")}</td>   
+                </tr>    
+                <tr>
+                    <td valign="top" class="name"><g:message code="museum.postcode.label" default="Postcode" /></td>
+                    <td valign="top" class="value">${fieldValue(bean: museumInstance, field: "postcode")}</td>   
                 </tr>                   
             </tbody>
         </table>

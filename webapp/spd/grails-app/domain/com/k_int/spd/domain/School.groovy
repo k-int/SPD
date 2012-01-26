@@ -10,5 +10,6 @@ class School {
   static constraints = {
     oldSpdId(nullable:true)
     region(nullable:true)
+    edubaseUrn(nullable:true)
   }
 }

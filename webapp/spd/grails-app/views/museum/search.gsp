@@ -20,6 +20,7 @@
 				<li><label for="name">Name</label><input type="text" name="name" id="name" class="large" value="${params.name}"/></li>
 				<li><label for="oldSpdId">Legacy Id</label><input type="text" name="oldSpdId" id="oldSpdId" class="large" value="${params.oldSpdId}"/></li>
 				<li><label for="region">Region</label><g:select name="region" from="${regionList}" optionKey="id" optionValue="regionName" noSelection="['':'']" value="${params.region}" class="large"></g:select></li>
+				<li><label for="postcode">Postcode</label><input type="text" name="postcode" id="postcode" class="large" value="${params.postcode}"/></li>
 				<li><label for="go"></label><input type="submit" value="Go"/></li>
 			</ul>
 		</g:form>       	

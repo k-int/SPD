@@ -18,6 +18,8 @@ class Museum {
   static constraints = {
     oldSpdId(nullable:true)
     region(nullable:true)
+    CultureGridInternalId(nullable:true)
+    InstitutionId(nullable:true)
   }
 
   List allAffiliates()

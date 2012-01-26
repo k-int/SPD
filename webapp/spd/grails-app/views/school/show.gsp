@@ -36,6 +36,10 @@
 					<td valign="top" class="name"><g:message code="school.name.label" default="Name" /></td> 
 					<td valign="top" class="value">${fieldValue(bean: schoolInstance, field: "name")}</td>  
 				</tr>
+				<tr class="prop">
+                    <td valign="top" class="name"><g:message code="school.edubaseUrn.label" default="Edubase Urn" /></td> 
+                    <td valign="top" class="value">${fieldValue(bean: schoolInstance, field: "edubaseUrn")}</td>  
+                </tr>
 			</tbody>
 		</table>
 		<g:form>
